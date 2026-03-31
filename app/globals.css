@@ -117,14 +117,117 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ─── WINTER THEME (default) ─────────────────────────────────────────────── */
+:root,
+[data-theme="winter"] {
+  --theme-primary: oklch(0.28 0.12 250);       /* deep blue */
+  --theme-primary-light: oklch(0.55 0.14 250);
+  --theme-accent: oklch(0.75 0.15 210);        /* icy cyan */
+  --theme-accent-warm: oklch(0.90 0.06 210);
+  --theme-bg: oklch(0.98 0.01 240);            /* near-white cool */
+  --theme-text: oklch(0.18 0.04 250);
+  --theme-text-muted: oklch(0.50 0.04 250);
+  --theme-hero-from: #0d2b4e;
+  --theme-hero-via: #1a5276;
+  --theme-hero-to: #2e86c1;
+  --theme-card-border: oklch(0.88 0.03 240);
+  --theme-badge-bg: oklch(0.88 0.06 210);
+  --theme-badge-text: oklch(0.25 0.10 250);
+  /* ── new dark-design tokens ── */
+  --theme-dark-base: #0a0f1e;
+  --theme-dark-mid: #070c16;
+  --theme-hero-gradient: linear-gradient(170deg, #060c18 0%, #0d2448 50%, #0a1f3d 100%);
+  --theme-card-tint: rgba(13, 43, 78, 0.5);
+  --theme-card-tint-border: rgba(13, 43, 78, 0.8);
+  --theme-badge-color: #7ec8e3;
+  --theme-badge-bg-dark: rgba(13, 43, 78, 0.8);
+  --theme-season-label: "❄️  Winter Season";
+  --theme-nav-solid: rgba(10, 15, 30, 0.95);
+}
+
+/* ─── SUMMER THEME ───────────────────────────────────────────────────────── */
+[data-theme="summer"] {
+  --theme-primary: oklch(0.32 0.12 155);       /* forest green */
+  --theme-primary-light: oklch(0.55 0.14 155);
+  --theme-accent: oklch(0.78 0.16 85);         /* golden yellow */
+  --theme-accent-warm: oklch(0.94 0.08 85);
+  --theme-bg: oklch(0.98 0.01 90);             /* warm cream */
+  --theme-text: oklch(0.18 0.04 120);
+  --theme-text-muted: oklch(0.48 0.05 130);
+  --theme-hero-from: #1a4731;
+  --theme-hero-via: #2e7d5a;
+  --theme-hero-to: #6dbb8a;
+  --theme-card-border: oklch(0.88 0.04 120);
+  --theme-badge-bg: oklch(0.90 0.08 85);
+  --theme-badge-text: oklch(0.28 0.10 120);
+  /* ── new dark-design tokens ── */
+  --theme-dark-base: #060e0a;
+  --theme-dark-mid: #060d08;
+  --theme-hero-gradient: linear-gradient(170deg, #060e08 0%, #0d2418 50%, #0a1f10 100%);
+  --theme-card-tint: rgba(26, 71, 49, 0.5);
+  --theme-card-tint-border: rgba(26, 71, 49, 0.8);
+  --theme-badge-color: #90ee90;
+  --theme-badge-bg-dark: rgba(26, 71, 49, 0.8);
+  --theme-season-label: "☀️  Summer Season";
+  --theme-nav-solid: rgba(6, 14, 10, 0.95);
+}
+
+/* ─── BRAND CONSTANTS (never theme-dependent) ────────────────────────────── */
+:root {
+  --brand-coral: #E8746B;
+  --brand-coral-hover: #d4635a;
+  --brand-coral-muted: rgba(232, 116, 107, 0.12);
+  --brand-coral-border: rgba(232, 116, 107, 0.3);
+}
+
+/* ─── NAVBAR SCROLL STATE ────────────────────────────────────────────────── */
+.navbar-scrolled {
+  background-color: var(--theme-nav-solid) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 }
+
+/* ─── THEME UTILITY CLASSES ─────────────────────────────────────────────── */
+.theme-primary { color: var(--theme-primary); }
+.theme-bg-primary { background-color: var(--theme-primary); }
+.theme-bg-primary-light { background-color: var(--theme-primary-light); }
+.theme-accent { color: var(--theme-accent); }
+.theme-bg-accent { background-color: var(--theme-accent); }
+.theme-text-muted { color: var(--theme-text-muted); }
+.theme-border { border-color: var(--theme-card-border); }
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--theme-hero-from) 0%,
+    var(--theme-hero-via) 55%,
+    var(--theme-hero-to) 100%
+  );
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-600 { animation-delay: 600ms; }
