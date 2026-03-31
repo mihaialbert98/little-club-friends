@@ -3,22 +3,22 @@ import { getTranslations } from 'next-intl/server'
 import { getSectionPhoto } from '@/lib/content'
 import { Link } from '@/i18n/navigation'
 
-const STATS = [
-  { value: '500+', label: 'Kids trained' },
-  { value: '10+', label: 'Years experience' },
-  { value: '5', label: 'Activities' },
-]
-
-const VALUES = [
-  { icon: '🏅', title: 'Certified instructors', desc: 'All instructors are professionally certified and trained' },
-  { icon: '👦', title: 'Ages 4–14, all levels', desc: 'From first-timers to advanced — we meet every child where they are' },
-  { icon: '🏔️', title: 'Poiana Brașov, year-round', desc: 'The most beautiful mountain resort in Romania, every season' },
-  { icon: '👐', title: 'Personal attention', desc: 'Small groups and private lessons for real progress' },
-]
-
 export default async function AboutTeaser() {
   const t = await getTranslations('home')
   const photo = await getSectionPhoto('home.about_strip')
+
+  const stats = [
+    { value: t('stat_kids'), label: t('stat_kids_label') },
+    { value: t('stat_years'), label: t('stat_years_label') },
+    { value: t('stat_activities'), label: t('stat_activities_label') },
+  ]
+
+  const values = [
+    { icon: t('value_1_icon'), title: t('value_1_title'), desc: t('value_1_desc') },
+    { icon: t('value_2_icon'), title: t('value_2_title'), desc: t('value_2_desc') },
+    { icon: t('value_3_icon'), title: t('value_3_title'), desc: t('value_3_desc') },
+    { icon: t('value_4_icon'), title: t('value_4_title'), desc: t('value_4_desc') },
+  ]
 
   return (
     <section style={{ backgroundColor: 'var(--theme-dark-base, #0a0f1e)' }} className="py-20 lg:py-28">
@@ -46,7 +46,7 @@ export default async function AboutTeaser() {
           </div>
 
           {/* Stat badges */}
-          {STATS.map((stat, i) => (
+          {stats.map((stat, i) => (
             <div
               key={stat.label}
               className="absolute flex flex-col items-center justify-center px-4 py-2 rounded-sm"
@@ -78,7 +78,7 @@ export default async function AboutTeaser() {
           </p>
 
           <ul className="flex flex-col gap-4 mt-2">
-            {VALUES.map((v) => (
+            {values.map((v) => (
               <li key={v.title} className="flex items-start gap-3">
                 <span className="text-lg mt-0.5">{v.icon}</span>
                 <div>
@@ -91,7 +91,7 @@ export default async function AboutTeaser() {
 
           <Link
             href="/instructors"
-            className="mt-2 self-start px-6 py-2.5 text-[10px] tracking-[1.5px] uppercase font-bold rounded-sm border transition-colors hover:text-white"
+            className="mt-2 self-start px-6 py-2.5 text-[10px] tracking-[1.5px] uppercase font-bold rounded-sm border transition-all hover:text-white hover:bg-white/10"
             style={{
               color: 'var(--brand-coral)',
               borderColor: 'var(--brand-coral-border)',
