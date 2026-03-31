@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── AUTH (NextAuth v5 / Auth.js adapter tables) ──────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+// ─── SITE SETTINGS ────────────────────────────────────────────────────────────
+
+model SiteSettings {
+  id           String   @id @default(cuid())
+  activeTheme  Theme    @default(WINTER)
+  siteName     String   @default("Little Club Friends")
+  contactEmail String   @default("littleskifriends@yahoo.com")
+  contactPhone String   @default("0770675375")
+  updatedAt    DateTime @updatedAt
+}
+
+enum Theme {
+  WINTER
+  SUMMER
+}
+
+// ─── PAGE CONTENT (bilingual) ─────────────────────────────────────────────────
+// key format: "home.hero_title.ro" / "home.hero_title.en"
+
+model PageContent {
+  id        String   @id @default(cuid())
+  page      String
+  key       String
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, key])
+}
+
+// ─── ACTIVITIES ───────────────────────────────────────────────────────────────
+
+model Activity {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  season      Season   @default(BOTH)
+  ageMin      Int      @default(4)
+  ageMax      Int      @default(16)
+  durationMin Int      @default(60)
+  priceFrom   Decimal  @db.Decimal(10, 2)
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  translations ActivityTranslation[]
+  images       ActivityImage[]
+  bookings     Booking[]
+}
+
+model ActivityTranslation {
+  id          String @id @default(cuid())
+  activityId  String
+  locale      String // "ro" | "en"
+  name        String
+  description String @db.Text
+  shortDesc   String
+
+  activity Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@unique([activityId, locale])
+}
+
+model ActivityImage {
+  id         String  @id @default(cuid())
+  activityId String
+  url        String
+  publicId   String
+  alt        String  @default("")
+  isPrimary  Boolean @default(false)
+  sortOrder  Int     @default(0)
+
+  activity Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+}
+
+enum Season {
+  WINTER
+  SUMMER
+  BOTH
+}
+
+// ─── INSTRUCTORS ──────────────────────────────────────────────────────────────
+
+model Instructor {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  certifications String[]
+  imageUrl       String?
+  imagePublicId  String?
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  translations InstructorTranslation[]
+}
+
+model InstructorTranslation {
+  id           String @id @default(cuid())
+  instructorId String
+  locale       String // "ro" | "en"
+  name         String
+  bio          String @db.Text
+
+  instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@unique([instructorId, locale])
+}
+
+// ─── GALLERY ──────────────────────────────────────────────────────────────────
+
+model GalleryPhoto {
+  id        String   @id @default(cuid())
+  url       String
+  publicId  String
+  caption   String?
+  season    Season?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// ─── SECTION PHOTOS ───────────────────────────────────────────────────────
+// Per-section photo overrides. When present, used instead of static fallback.
+// sectionKey values: "home.hero_bg" | "home.about_strip" |
+//   "instructors.hero_bg" | "instructors.action" |
+//   "about.hero_bg" | "about.story"
+
+model SectionPhoto {
+  id         String   @id @default(cuid())
+  sectionKey String   @unique
+  url        String
+  publicId   String
+  alt        String   @default("")
+  updatedAt  DateTime @updatedAt
+}
+
+// ─── BOOKINGS ─────────────────────────────────────────────────────────────────
+
+model Booking {
+  id               String        @id @default(cuid())
+  parentName       String
+  email            String
+  phone            String
+  numberOfChildren Int
+  childrenAges     String
+  activityId       String?
+  preferredDates   String
+  notes            String?       @db.Text
+  status           BookingStatus @default(NEW)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  activity Activity? @relation(fields: [activityId], references: [id], onDelete: SetNull)
+}
+
+enum BookingStatus {
+  NEW
+  CONTACTED
+  RESOLVED
+  CANCELLED
+}
