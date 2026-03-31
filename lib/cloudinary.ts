@@ -22,6 +22,18 @@ export async function generateSignedUploadUrl(folder: string) {
   }
 }
 
+export async function uploadImage(
+  imageData: string,
+  options?: { folder?: string; public_id?: string }
+) {
+  const result = await cloudinary.uploader.upload(imageData, {
+    folder: options?.folder,
+    public_id: options?.public_id,
+    overwrite: true,
+  })
+  return result
+}
+
 export async function deleteImage(publicId: string) {
   await cloudinary.uploader.destroy(publicId)
 }
