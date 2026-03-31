@@ -77,7 +77,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
-      <FeaturedActivities activities={activities} locale={locale} />
+      <FeaturedActivities />
       <AboutTeaser aboutText={aboutText?.value} locale={locale} theme={theme} />
       <CTASection theme={theme} />
     </>
