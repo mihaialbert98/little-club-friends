@@ -1,11 +1,27 @@
 import { Link } from '@/i18n/navigation'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { db } from '@/lib/db'
-import { getActiveTheme } from '@/lib/theme'
-import { Season, Theme } from '@prisma/client'
-import type { Activity, ActivityTranslation } from '@prisma/client'
+import { getActiveTheme, getActivityOrderSQL } from '@/lib/theme'
+import { Season } from '@prisma/client'
 
-type ActivityWithTranslations = Activity & { translations: ActivityTranslation[] }
+interface RawActivityTranslation {
+  locale: string
+  name: string
+  description: string
+}
+
+interface RawActivity {
+  id: string
+  slug: string
+  season: string
+  ageMin: number
+  ageMax: number
+  durationMin: number
+  priceFrom: unknown
+  isActive: boolean
+  sortOrder: number
+  translations: RawActivityTranslation[] | null
+}
 
 const SEASON_EMOJIS: Record<string, string> = {
   skiing: '⛷️',
@@ -22,38 +38,25 @@ function getEmoji(slug: string): string {
   return '🏔️'
 }
 
-function sortActivities(activities: ActivityWithTranslations[], theme: Theme): ActivityWithTranslations[] {
-  const order = (season: Season): number => {
-    if (theme === Theme.WINTER) {
-      if (season === Season.WINTER) return 0
-      if (season === Season.BOTH) return 1
-      return 2
-    } else {
-      if (season === Season.SUMMER) return 0
-      if (season === Season.BOTH) return 1
-      return 2
-    }
-  }
-
-  return [...activities].sort((a, b) => {
-    const diff = order(a.season) - order(b.season)
-    if (diff !== 0) return diff
-    return a.sortOrder - b.sortOrder
-  })
-}
-
 export default async function FeaturedActivities() {
   const t = await getTranslations('home')
   const locale = await getLocale()
   const theme = await getActiveTheme()
+  const orderSQL = getActivityOrderSQL(theme)
 
-  const raw = await db.activity.findMany({
-    where: { isActive: true },
-    include: { translations: true },
-    orderBy: { sortOrder: 'asc' },
-  })
+  const rawActivities = await db.$queryRawUnsafe<RawActivity[]>(`
+    SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom", a."isActive", a."sortOrder",
+           COALESCE(json_agg(json_build_object('locale', at.locale, 'name', at.name, 'description', at.description))
+             FILTER (WHERE at.id IS NOT NULL), '[]') as translations
+    FROM "Activity" a
+    LEFT JOIN "ActivityTranslation" at ON at."activityId" = a.id
+    WHERE a."isActive" = true
+    GROUP BY a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom", a."isActive", a."sortOrder"
+    ORDER BY ${orderSQL}, a."sortOrder"
+    LIMIT 6
+  `)
 
-  const activities = sortActivities(raw, theme).slice(0, 6)
+  if (rawActivities.length === 0) return null
 
   return (
     <section style={{ backgroundColor: 'var(--theme-dark-mid, #070c16)' }} className="py-20 lg:py-28">
@@ -78,10 +81,10 @@ export default async function FeaturedActivities() {
 
         {/* Activity rows */}
         <div className="flex flex-col gap-2">
-          {activities.map((activity) => {
+          {rawActivities.map((activity) => {
             const translation =
-              activity.translations.find((tr) => tr.locale === locale) ??
-              activity.translations[0]
+              activity.translations?.find((tr) => tr.locale === locale) ??
+              activity.translations?.[0]
 
             const isWinterActivity = activity.season === Season.WINTER
             const isSummerActivity = activity.season === Season.SUMMER
