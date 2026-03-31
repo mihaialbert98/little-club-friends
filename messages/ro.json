@@ -72,7 +72,13 @@
   },
   "instructors": {
     "page_title": "Instructorii noștri",
-    "page_subtitle": "Profesioniști pasionați, dedicați siguranței și distracției copiilor"
+    "page_subtitle": "Profesioniști pasionați, dedicați siguranței și distracției copiilor",
+    "hero_label": "Echipa noastră",
+    "hero_title": "Instructori",
+    "fallback_label": "Certificați & Pasionați",
+    "fallback_title": "Instructori profesioniști",
+    "fallback_desc": "Echipa noastră de instructori certificați aduce ani de experiență și pasiune autentică la fiecare lecție. Siguranță, distracție și progres real — aceasta este promisiunea noastră pentru fiecare copil și familie.",
+    "strip_text": "Fiecare lecție, o amintire"
   },
   "gallery": {
     "page_title": "Galerie foto",
@@ -80,7 +86,26 @@
   },
   "about": {
     "page_title": "Despre noi",
-    "page_subtitle": "Pasiune pentru natură și sport, dedicație pentru copii"
+    "page_subtitle": "Pasiune pentru natură și sport, dedicație pentru copii",
+    "hero_label": "Povestea noastră",
+    "hero_title": "Despre noi",
+    "story_label": "Cum am început",
+    "story_title": "Născuți din dragostea pentru munte",
+    "story_body_1": "Little Club Friends a început ca Little Ski Friends — o mică școală de schi de iarnă în Poiana Brașov, condusă de doi instructori pasionați. De-a lungul anilor, a crescut și a devenit o școală de aventuri pentru tot anul, care a instruit peste 500 de copii.",
+    "story_body_2": "Astăzi oferim schi, snowboard, ciclism montan, drumeții și paddleboarding — toate predate de profesioniști certificați care le pasă cu adevărat de progresul și siguranța fiecărui copil.",
+    "values_label": "Ce ne animă",
+    "values_title": "Valorile noastre",
+    "value_1_title": "Siguranța pe primul loc",
+    "value_1_desc": "Fiecare lecție începe cu siguranța. Instructori certificați, echipament de calitate și atenție constantă pentru fiecare copil.",
+    "value_2_title": "Profesionalism",
+    "value_2_desc": "Instructorii noștri sunt certificați național și instruiți continuu.",
+    "value_3_title": "Pasiune",
+    "value_3_desc": "Iubim cu adevărat munții și transmitem această dragoste fiecărui copil.",
+    "value_4_title": "Incluziune",
+    "value_4_desc": "Orice copil este binevenit, indiferent de experiență, vârstă sau abilitate.",
+    "team_cta_title": "Cunoaște instructorii noștri",
+    "team_cta_subtitle": "Dedicați, certificați și pasionați de educația copiilor.",
+    "team_cta_button": "Echipa noastră"
   },
   "booking": {
     "page_title": "Rezervare",

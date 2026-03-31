@@ -72,7 +72,13 @@
   },
   "instructors": {
     "page_title": "Our instructors",
-    "page_subtitle": "Passionate professionals dedicated to children's safety and fun"
+    "page_subtitle": "Passionate professionals dedicated to children's safety and fun",
+    "hero_label": "Our Team",
+    "hero_title": "Instructors",
+    "fallback_label": "Certified & Passionate",
+    "fallback_title": "Professional instructors",
+    "fallback_desc": "Our team of certified instructors brings years of experience and genuine passion to every lesson. Safety, fun, and real progress — that is our promise to every child and family.",
+    "strip_text": "Every lesson, a memory"
   },
   "gallery": {
     "page_title": "Photo gallery",
@@ -80,7 +86,26 @@
   },
   "about": {
     "page_title": "About us",
-    "page_subtitle": "Passion for nature and sport, dedication for children"
+    "page_subtitle": "Passion for nature and sport, dedication for children",
+    "hero_label": "Our Story",
+    "hero_title": "About Us",
+    "story_label": "Our Journey",
+    "story_title": "Born from a love of mountains",
+    "story_body_1": "Little Club Friends started as Little Ski Friends — a small winter ski school in Poiana Brașov run by two passionate instructors. Over the years, it grew into a year-round adventure school that has trained over 500 children.",
+    "story_body_2": "Today we offer skiing, snowboarding, mountain biking, hiking, and paddleboarding — all taught by certified professionals who truly care about every child's progress and safety.",
+    "values_label": "What drives us",
+    "values_title": "Our Values",
+    "value_1_title": "Safety first",
+    "value_1_desc": "Every lesson starts with safety. Certified instructors, quality equipment, and constant attention to each child.",
+    "value_2_title": "Professionalism",
+    "value_2_desc": "Our instructors are nationally certified and continuously trained.",
+    "value_3_title": "Passion",
+    "value_3_desc": "We genuinely love the mountains and pass that love to every child.",
+    "value_4_title": "Inclusion",
+    "value_4_desc": "Every child is welcome, regardless of experience, age, or ability.",
+    "team_cta_title": "Meet Our Instructors",
+    "team_cta_subtitle": "Dedicated, certified, and passionate about teaching children.",
+    "team_cta_button": "Our Team"
   },
   "booking": {
     "page_title": "Booking",
