@@ -40,7 +40,7 @@ export default async function InstructorsPage() {
           {instructors.length === 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative overflow-hidden rounded-sm" style={{ border: '2px solid rgba(232,116,107,0.15)' }}>
-                <Image src={heroBg.url} alt={heroBg.alt} width={700} height={500} className="w-full object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+                <Image src={actionPhoto.url} alt={actionPhoto.alt} width={700} height={500} className="w-full object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
               </div>
               <div>
                 <p className="text-[10px] tracking-[2px] uppercase font-bold mb-3" style={{ color: 'var(--brand-coral)' }}>
@@ -55,7 +55,7 @@ export default async function InstructorsPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {instructors.map((instructor) => {
-                const tr = instructor.translations.find((tr) => tr.locale === locale) ?? instructor.translations[0]
+                const tr = instructor.translations.find((tx) => tx.locale === locale) ?? instructor.translations[0]
                 return (
                   <div key={instructor.id} className="group rounded-sm overflow-hidden border border-white/8" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
                     {instructor.imageUrl ? (

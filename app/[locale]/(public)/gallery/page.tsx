@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
 import { getActiveTheme } from '@/lib/theme'
 import { getGalleryPhotos } from '@/lib/content'
 import { Theme, Season } from '@prisma/client'
@@ -6,6 +7,7 @@ import { Theme, Season } from '@prisma/client'
 export const revalidate = 60
 
 export default async function GalleryPage() {
+  const t = await getTranslations('gallery')
   const theme = await getActiveTheme()
   const photos = await getGalleryPhotos()
 
@@ -29,10 +31,10 @@ export default async function GalleryPage() {
       <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-28 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
-            Memories
+            {t('hero_label')}
           </p>
           <h1 className="text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
-            Our Gallery
+            {t('hero_title')}
           </h1>
         </div>
       </section>

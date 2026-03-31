@@ -82,7 +82,9 @@
   },
   "gallery": {
     "page_title": "Galerie foto",
-    "page_subtitle": "Momente frumoase cu Little Club Friends"
+    "page_subtitle": "Momente frumoase cu Little Club Friends",
+    "hero_label": "Amintiri",
+    "hero_title": "Galeria noastră"
   },
   "about": {
     "page_title": "Despre noi",

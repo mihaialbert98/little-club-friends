@@ -82,7 +82,9 @@
   },
   "gallery": {
     "page_title": "Photo gallery",
-    "page_subtitle": "Beautiful moments with Little Club Friends"
+    "page_subtitle": "Beautiful moments with Little Club Friends",
+    "hero_label": "Memories",
+    "hero_title": "Our Gallery"
   },
   "about": {
     "page_title": "About us",

@@ -48,14 +48,12 @@ export default async function AboutPage() {
             <p className="text-white/50 text-sm leading-relaxed mb-4">{t('story_body_1')}</p>
             <p className="text-white/50 text-sm leading-relaxed">{t('story_body_2')}</p>
           </div>
-          <div className="relative overflow-hidden rounded-sm" style={{ border: '2px solid rgba(232,116,107,0.15)' }}>
+          <div className="relative h-[460px] overflow-hidden rounded-sm" style={{ border: '2px solid rgba(232,116,107,0.15)' }}>
             <Image
               src={storyPhoto.url}
               alt={storyPhoto.alt}
-              width={600}
-              height={700}
-              className="w-full object-cover"
-              style={{ maxHeight: '460px' }}
+              fill
+              className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
