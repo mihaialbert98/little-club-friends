@@ -33,7 +33,12 @@
     "cta_label": "Pregătit?",
     "cta_title": "Gata de aventură?",
     "cta_subtitle": "Rezervă o lecție astăzi și lasă copilul tău să descopere munții.",
-    "cta_button": "Rezervă acum"
+    "cta_button": "Rezervă acum",
+    "activity_skiing": "Schi",
+    "activity_snowboard": "Snowboard",
+    "activity_biking": "Ciclism",
+    "activity_hiking": "Drumeție",
+    "activity_paddle": "Paddleboard"
   },
   "activities": {
     "page_title": "Activitățile noastre",

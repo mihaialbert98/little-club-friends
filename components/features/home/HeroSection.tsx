@@ -1,13 +1,12 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getActiveTheme } from '@/lib/theme'
 import { getSectionPhoto } from '@/lib/content'
 import { Theme } from '@prisma/client'
 
 export default async function HeroSection() {
   const t = await getTranslations('home')
-  const locale = await getLocale()
   const [theme, heroBg] = await Promise.all([
     getActiveTheme(),
     getSectionPhoto('home.hero_bg'),
@@ -18,18 +17,18 @@ export default async function HeroSection() {
 
   const pills = isWinter
     ? [
-        { emoji: '⛷️', label: 'Skiing', season: 'winter' },
-        { emoji: '🏂', label: 'Snowboard', season: 'winter' },
-        { emoji: '🚵', label: 'Biking', season: 'summer' },
-        { emoji: '🥾', label: 'Hiking', season: 'summer' },
-        { emoji: '🏄', label: 'Paddle', season: 'summer' },
+        { emoji: '⛷️', label: t('activity_skiing'), season: 'winter' },
+        { emoji: '🏂', label: t('activity_snowboard'), season: 'winter' },
+        { emoji: '🚵', label: t('activity_biking'), season: 'summer' },
+        { emoji: '🥾', label: t('activity_hiking'), season: 'summer' },
+        { emoji: '🏄', label: t('activity_paddle'), season: 'summer' },
       ]
     : [
-        { emoji: '🚵', label: 'Biking', season: 'summer' },
-        { emoji: '🥾', label: 'Hiking', season: 'summer' },
-        { emoji: '🏄', label: 'Paddle', season: 'summer' },
-        { emoji: '⛷️', label: 'Skiing', season: 'winter' },
-        { emoji: '🏂', label: 'Snowboard', season: 'winter' },
+        { emoji: '🚵', label: t('activity_biking'), season: 'summer' },
+        { emoji: '🥾', label: t('activity_hiking'), season: 'summer' },
+        { emoji: '🏄', label: t('activity_paddle'), season: 'summer' },
+        { emoji: '⛷️', label: t('activity_skiing'), season: 'winter' },
+        { emoji: '🏂', label: t('activity_snowboard'), season: 'winter' },
       ]
 
   return (
@@ -44,7 +43,7 @@ export default async function HeroSection() {
       <div className="absolute inset-0 opacity-15">
         <Image
           src={heroBg.url}
-          alt={heroBg.alt}
+          alt=""
           fill
           className="object-cover object-center"
           priority
@@ -106,14 +105,14 @@ export default async function HeroSection() {
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href={`/${locale}/booking`}
+            href="/booking"
             className="px-8 py-3 text-sm tracking-[1.5px] uppercase font-bold text-white rounded-sm transition-opacity hover:opacity-90"
             style={{ backgroundColor: 'var(--brand-coral)' }}
           >
             {t('hero_cta_primary')}
           </Link>
           <Link
-            href={`/${locale}/activities`}
+            href="/activities"
             className="px-8 py-3 text-sm tracking-[1.5px] uppercase font-bold text-white/70 rounded-sm border border-white/25 hover:text-white hover:border-white/50 transition-colors"
           >
             {t('hero_cta_secondary')} ↓

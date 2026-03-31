@@ -33,7 +33,12 @@
     "cta_label": "Ready?",
     "cta_title": "Ready for an Adventure?",
     "cta_subtitle": "Book a lesson today and let your child discover the mountains.",
-    "cta_button": "Book Now"
+    "cta_button": "Book Now",
+    "activity_skiing": "Skiing",
+    "activity_snowboard": "Snowboard",
+    "activity_biking": "Biking",
+    "activity_hiking": "Hiking",
+    "activity_paddle": "Paddle"
   },
   "activities": {
     "page_title": "Our activities",
