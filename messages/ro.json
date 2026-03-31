@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "activities": "Activități",
+    "instructors": "Instructori",
+    "gallery": "Galerie",
+    "about": "Despre noi",
+    "contact": "Contact",
+    "booking": "Rezervare",
+    "book_now": "Rezervă",
+    "admin": "Admin"
+  },
+  "home": {
+    "hero_cta": "Rezervă acum",
+    "hero_cta_secondary": "Descoperă activitățile",
+    "featured_activities_title": "Activitățile noastre",
+    "featured_activities_subtitle": "Experiențe unice pentru copii în mijlocul naturii",
+    "about_teaser_title": "Despre Little Club Friends",
+    "about_teaser_cta": "Află mai multe",
+    "cta_title": "Pregătit pentru aventură?",
+    "cta_subtitle": "Contactează-ne și rezervă o experiență de neuitat pentru copilul tău.",
+    "cta_button": "Trimite o cerere"
+  },
+  "activities": {
+    "page_title": "Activitățile noastre",
+    "page_subtitle": "Aventuri pentru toate anotimpurile",
+    "filter_all": "Toate",
+    "filter_winter": "Iarnă",
+    "filter_summer": "Vară",
+    "age": "Vârstă",
+    "duration": "Durată",
+    "price_from": "De la",
+    "book_activity": "Rezervă activitatea",
+    "min": "min"
+  },
+  "instructors": {
+    "page_title": "Instructorii noștri",
+    "page_subtitle": "Profesioniști pasionați, dedicați siguranței și distracției copiilor"
+  },
+  "gallery": {
+    "page_title": "Galerie foto",
+    "page_subtitle": "Momente frumoase cu Little Club Friends"
+  },
+  "about": {
+    "page_title": "Despre noi",
+    "page_subtitle": "Pasiune pentru natură și sport, dedicație pentru copii"
+  },
+  "booking": {
+    "page_title": "Rezervare",
+    "page_subtitle": "Completează formularul și te contactăm în cel mai scurt timp",
+    "form_parent_name": "Numele părintelui",
+    "form_email": "Email",
+    "form_phone": "Telefon",
+    "form_children_count": "Număr de copii",
+    "form_children_ages": "Vârsta copiilor",
+    "form_children_ages_placeholder": "ex: 5, 7, 9",
+    "form_activity": "Activitatea dorită",
+    "form_activity_placeholder": "Selectează o activitate",
+    "form_dates": "Date preferate",
+    "form_dates_placeholder": "ex: weekend-ul 15-16 martie",
+    "form_notes": "Observații suplimentare",
+    "form_notes_placeholder": "Orice informații relevante...",
+    "form_submit": "Trimite cererea",
+    "form_submitting": "Se trimite...",
+    "success_title": "Cerere trimisă!",
+    "success_message": "Îți mulțumim! Te vom contacta în cel mai scurt timp.",
+    "error_message": "A apărut o eroare. Te rugăm să încerci din nou."
+  },
+  "contact": {
+    "page_title": "Contact",
+    "page_subtitle": "Suntem aici pentru orice întrebare",
+    "address_label": "Adresă",
+    "phone_label": "Telefon",
+    "email_label": "Email",
+    "form_name": "Numele tău",
+    "form_email": "Email",
+    "form_message": "Mesaj",
+    "form_submit": "Trimite mesajul",
+    "form_submitting": "Se trimite..."
+  },
+  "common": {
+    "years": "ani",
+    "read_more": "Citește mai mult",
+    "back": "Înapoi",
+    "loading": "Se încarcă...",
+    "error": "A apărut o eroare",
+    "not_found": "Pagina nu a fost găsită",
+    "currency": "RON"
+  },
+  "footer": {
+    "tagline": "Aventuri pentru copii în inima munților",
+    "links_title": "Link-uri rapide",
+    "quick_links": "Link-uri rapide",
+    "contact_title": "Contact",
+    "contact": "Contact",
+    "rights": "Toate drepturile rezervate.",
+    "privacy": "Politică de confidențialitate",
+    "terms": "Termeni"
+  },
+  "themes": {
+    "winter": "Iarnă",
+    "summer": "Vară"
+  },
+  "admin": {
+    "dashboard": "Panou de control",
+    "activities": "Activități",
+    "bookings": "Rezervări",
+    "instructors": "Instructori",
+    "gallery": "Galerie",
+    "pages": "Pagini",
+    "settings": "Setări",
+    "logout": "Deconectare",
+    "new": "Adaugă nou",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "confirm_delete": "Ești sigur că vrei să ștergi?",
+    "status_new": "Nou",
+    "status_contacted": "Contactat",
+    "status_resolved": "Rezolvat",
+    "status_cancelled": "Anulat",
+    "theme_toggle_title": "Tema activă a site-ului",
+    "theme_toggle_desc": "Schimbă tema vizuală și ordinea activităților pe site.",
+    "switch_to_summer": "Activează tema Vară",
+    "switch_to_winter": "Activează tema Iarnă",
+    "current_theme": "Tema curentă"
+  }
+}

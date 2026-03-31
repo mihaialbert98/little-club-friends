@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "activities": "Activities",
+    "instructors": "Instructors",
+    "gallery": "Gallery",
+    "about": "About",
+    "contact": "Contact",
+    "booking": "Book now",
+    "book_now": "Book Now",
+    "admin": "Admin"
+  },
+  "home": {
+    "hero_cta": "Book now",
+    "hero_cta_secondary": "Discover activities",
+    "featured_activities_title": "Our activities",
+    "featured_activities_subtitle": "Unique experiences for children in the heart of nature",
+    "about_teaser_title": "About Little Club Friends",
+    "about_teaser_cta": "Learn more",
+    "cta_title": "Ready for adventure?",
+    "cta_subtitle": "Contact us and book an unforgettable experience for your child.",
+    "cta_button": "Send a request"
+  },
+  "activities": {
+    "page_title": "Our activities",
+    "page_subtitle": "Adventures for all seasons",
+    "filter_all": "All",
+    "filter_winter": "Winter",
+    "filter_summer": "Summer",
+    "age": "Age",
+    "duration": "Duration",
+    "price_from": "From",
+    "book_activity": "Book this activity",
+    "min": "min"
+  },
+  "instructors": {
+    "page_title": "Our instructors",
+    "page_subtitle": "Passionate professionals dedicated to children's safety and fun"
+  },
+  "gallery": {
+    "page_title": "Photo gallery",
+    "page_subtitle": "Beautiful moments with Little Club Friends"
+  },
+  "about": {
+    "page_title": "About us",
+    "page_subtitle": "Passion for nature and sport, dedication for children"
+  },
+  "booking": {
+    "page_title": "Booking",
+    "page_subtitle": "Fill in the form and we will contact you as soon as possible",
+    "form_parent_name": "Parent's name",
+    "form_email": "Email",
+    "form_phone": "Phone",
+    "form_children_count": "Number of children",
+    "form_children_ages": "Children's ages",
+    "form_children_ages_placeholder": "e.g. 5, 7, 9",
+    "form_activity": "Desired activity",
+    "form_activity_placeholder": "Select an activity",
+    "form_dates": "Preferred dates",
+    "form_dates_placeholder": "e.g. weekend of March 15-16",
+    "form_notes": "Additional notes",
+    "form_notes_placeholder": "Any relevant information...",
+    "form_submit": "Send request",
+    "form_submitting": "Sending...",
+    "success_title": "Request sent!",
+    "success_message": "Thank you! We will contact you as soon as possible.",
+    "error_message": "An error occurred. Please try again."
+  },
+  "contact": {
+    "page_title": "Contact",
+    "page_subtitle": "We are here for any questions",
+    "address_label": "Address",
+    "phone_label": "Phone",
+    "email_label": "Email",
+    "form_name": "Your name",
+    "form_email": "Email",
+    "form_message": "Message",
+    "form_submit": "Send message",
+    "form_submitting": "Sending..."
+  },
+  "common": {
+    "years": "years",
+    "read_more": "Read more",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "not_found": "Page not found",
+    "currency": "RON"
+  },
+  "footer": {
+    "tagline": "Adventures for children in the heart of the mountains",
+    "links_title": "Quick links",
+    "quick_links": "Quick Links",
+    "contact_title": "Contact",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms"
+  },
+  "themes": {
+    "winter": "Winter",
+    "summer": "Summer"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "activities": "Activities",
+    "bookings": "Bookings",
+    "instructors": "Instructors",
+    "gallery": "Gallery",
+    "pages": "Pages",
+    "settings": "Settings",
+    "logout": "Logout",
+    "new": "Add new",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm_delete": "Are you sure you want to delete this?",
+    "status_new": "New",
+    "status_contacted": "Contacted",
+    "status_resolved": "Resolved",
+    "status_cancelled": "Cancelled",
+    "theme_toggle_title": "Active website theme",
+    "theme_toggle_desc": "Change the visual theme and activity ordering on the site.",
+    "switch_to_summer": "Activate Summer theme",
+    "switch_to_winter": "Activate Winter theme",
+    "current_theme": "Current theme"
+  }
+}
