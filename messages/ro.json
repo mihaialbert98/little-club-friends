@@ -133,6 +133,7 @@
   "contact": {
     "page_title": "Contact",
     "page_subtitle": "Suntem aici pentru orice întrebare",
+    "hero_label": "Contactați-ne",
     "address_label": "Adresă",
     "phone_label": "Telefon",
     "email_label": "Email",
@@ -140,7 +141,10 @@
     "form_email": "Email",
     "form_message": "Mesaj",
     "form_submit": "Trimite mesajul",
-    "form_submitting": "Se trimite..."
+    "form_submitting": "Se trimite...",
+    "book_card_title": "Vrei să rezervi?",
+    "book_card_desc": "Completează formularul de rezervare și te vom contacta cât mai curând.",
+    "book_card_cta": "Formular rezervare"
   },
   "common": {
     "years": "ani",

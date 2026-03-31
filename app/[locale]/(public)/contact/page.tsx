@@ -1,4 +1,4 @@
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import type { Metadata } from 'next'
@@ -6,7 +6,6 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = { title: 'Contact' }
 
 export default async function ContactPage() {
-  const locale = await getLocale()
   const t = await getTranslations('contact')
 
   return (
@@ -15,7 +14,7 @@ export default async function ContactPage() {
       <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-28 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
-            {locale === 'ro' ? 'Contactați-ne' : 'Get in touch'}
+            {t('hero_label')}
           </p>
           <h1 className="text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
             {t('page_title')}
@@ -83,19 +82,17 @@ export default async function ContactPage() {
           <div className="bg-white/5 border border-white/10 rounded-sm p-8 flex flex-col justify-center items-center text-center">
             <div className="text-6xl mb-4">📞</div>
             <h3 className="text-xl font-bold mb-3 text-white uppercase tracking-wide">
-              {locale === 'ro' ? 'Vrei să rezervi?' : 'Want to book?'}
+              {t('book_card_title')}
             </h3>
             <p className="mb-6 text-sm leading-relaxed text-white/50">
-              {locale === 'ro'
-                ? 'Completează formularul de rezervare și te contactăm în cel mai scurt timp.'
-                : 'Fill in the booking form and we will contact you as soon as possible.'}
+              {t('book_card_desc')}
             </p>
             <Link
               href="/booking"
               className="inline-flex items-center justify-center px-6 py-3 rounded-sm font-semibold text-white transition-all hover:opacity-90"
               style={{ backgroundColor: 'var(--brand-coral)' }}
             >
-              {locale === 'ro' ? 'Formular rezervare' : 'Booking form'}
+              {t('book_card_cta')}
             </Link>
           </div>
         </div>

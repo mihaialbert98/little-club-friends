@@ -133,6 +133,7 @@
   "contact": {
     "page_title": "Contact",
     "page_subtitle": "We are here for any questions",
+    "hero_label": "Get in touch",
     "address_label": "Address",
     "phone_label": "Phone",
     "email_label": "Email",
@@ -140,7 +141,10 @@
     "form_email": "Email",
     "form_message": "Message",
     "form_submit": "Send message",
-    "form_submitting": "Sending..."
+    "form_submitting": "Sending...",
+    "book_card_title": "Want to book?",
+    "book_card_desc": "Fill in the booking form and we will get back to you as soon as possible.",
+    "book_card_cta": "Booking form"
   },
   "common": {
     "years": "years",

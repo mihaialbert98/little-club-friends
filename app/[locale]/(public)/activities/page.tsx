@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { db } from '@/lib/db'
 import { getActiveTheme } from '@/lib/theme'
 import { Link } from '@/i18n/navigation'
-import { Theme } from '@prisma/client'
+import { Prisma, Theme } from '@prisma/client'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Activități' }
@@ -25,26 +25,27 @@ const seasonBadgeStyles: Record<string, { backgroundColor: string; color: string
 export default async function ActivitiesPage() {
   const locale = await getLocale()
   const t = await getTranslations('activities')
+  const tHome = await getTranslations('home')
   const theme = await getActiveTheme()
 
   const seasonPriority =
     theme === Theme.WINTER
-      ? `CASE WHEN a.season = 'WINTER' THEN 0 WHEN a.season = 'BOTH' THEN 1 ELSE 2 END`
-      : `CASE WHEN a.season = 'SUMMER' THEN 0 WHEN a.season = 'BOTH' THEN 1 ELSE 2 END`
+      ? Prisma.raw(`CASE WHEN a.season = 'WINTER' THEN 0 WHEN a.season = 'BOTH' THEN 1 ELSE 2 END`)
+      : Prisma.raw(`CASE WHEN a.season = 'SUMMER' THEN 0 WHEN a.season = 'BOTH' THEN 1 ELSE 2 END`)
 
-  const activities = await db.$queryRawUnsafe<
+  const activities = await db.$queryRaw<
     {
       id: string; slug: string; season: string; ageMin: number; ageMax: number;
       durationMin: number; priceFrom: string; name: string; shortDesc: string;
     }[]
-  >(`
+  >`
     SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom",
            t.name, t."shortDesc"
     FROM "Activity" a
-    JOIN "ActivityTranslation" t ON t."activityId" = a.id AND t.locale = $1
+    JOIN "ActivityTranslation" t ON t."activityId" = a.id AND t.locale = ${locale}
     WHERE a."isActive" = true
     ORDER BY ${seasonPriority}, a."sortOrder"
-  `, locale)
+  `
 
   const seasonLabels: Record<string, string> =
     locale === 'ro'
@@ -57,7 +58,7 @@ export default async function ActivitiesPage() {
       <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-28 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
-            {locale === 'ro' ? 'Ce oferim' : 'What we offer'}
+            {tHome('featured_label')}
           </p>
           <h1 className="text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
             {t('page_title')}
