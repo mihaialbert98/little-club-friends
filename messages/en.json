@@ -68,7 +68,10 @@
     "duration": "Duration",
     "price_from": "From",
     "book_activity": "Book this activity",
-    "min": "min"
+    "min": "min",
+    "season_winter": "Winter",
+    "season_summer": "Summer",
+    "season_both": "Year-round"
   },
   "instructors": {
     "page_title": "Our instructors",

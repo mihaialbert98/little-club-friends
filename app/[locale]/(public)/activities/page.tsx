@@ -47,10 +47,11 @@ export default async function ActivitiesPage() {
     ORDER BY ${seasonPriority}, a."sortOrder"
   `
 
-  const seasonLabels: Record<string, string> =
-    locale === 'ro'
-      ? { WINTER: 'Iarnă', SUMMER: 'Vară', BOTH: 'Tot anul' }
-      : { WINTER: 'Winter', SUMMER: 'Summer', BOTH: 'Year-round' }
+  const seasonLabels: Record<string, string> = {
+    WINTER: t('season_winter'),
+    SUMMER: t('season_summer'),
+    BOTH: t('season_both'),
+  }
 
   return (
     <div style={{ backgroundColor: 'var(--theme-dark-base, #0a0f1e)' }}>
