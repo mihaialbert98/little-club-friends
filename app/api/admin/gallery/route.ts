@@ -43,17 +43,18 @@ export async function POST(req: NextRequest) {
 
   const uploaded = await uploadImage(imageData, { folder: 'little-club-friends/gallery' })
 
-  const maxOrder = await db.galleryPhoto.aggregate({ _max: { sortOrder: true } })
-  const nextOrder = (maxOrder._max.sortOrder ?? 0) + 1
-
-  const photo = await db.galleryPhoto.create({
-    data: {
-      url: uploaded.secure_url,
-      publicId: uploaded.public_id,
-      caption: caption ?? null,
-      season: season ?? null,
-      sortOrder: nextOrder,
-    },
+  const photo = await db.$transaction(async (tx) => {
+    const maxOrder = await tx.galleryPhoto.aggregate({ _max: { sortOrder: true } })
+    const nextOrder = (maxOrder._max.sortOrder ?? 0) + 1
+    return tx.galleryPhoto.create({
+      data: {
+        url: uploaded.secure_url,
+        publicId: uploaded.public_id,
+        caption: caption ?? null,
+        season: season ?? null,
+        sortOrder: nextOrder,
+      },
+    })
   })
 
   revalidatePath('/ro/gallery')
@@ -74,7 +75,11 @@ export async function PATCH(req: NextRequest) {
 
   const { id, ...updates } = parsed.data
 
-  const photo = await db.galleryPhoto.update({ where: { id }, data: updates })
+  const safeUpdates = Object.fromEntries(
+    Object.entries(updates).filter(([, v]) => v !== undefined)
+  )
+
+  const photo = await db.galleryPhoto.update({ where: { id }, data: safeUpdates })
 
   revalidatePath('/ro/gallery')
   revalidatePath('/en/gallery')
