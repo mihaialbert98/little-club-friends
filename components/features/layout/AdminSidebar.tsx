@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 import {
   Mountain, LayoutDashboard, Calendar, Users,
-  Image, FileText, Settings, LogOut, Activity
+  Image as ImageIcon, FileText, Settings, LogOut, Activity, GalleryHorizontal
 } from 'lucide-react'
 
 interface AdminSidebarProps {
@@ -21,8 +21,9 @@ export default function AdminSidebar({ locale }: AdminSidebarProps) {
     { href: `${base}/activities`, label: 'Activități', icon: Activity },
     { href: `${base}/bookings`, label: 'Rezervări', icon: Calendar },
     { href: `${base}/instructors`, label: 'Instructori', icon: Users },
-    { href: `${base}/gallery`, label: 'Galerie', icon: Image },
-    { href: `${base}/pages`, label: 'Pagini', icon: FileText },
+    { href: `${base}/content`, label: 'Page Content', icon: FileText },
+    { href: `${base}/photos`, label: 'Section Photos', icon: ImageIcon },
+    { href: `${base}/gallery`, label: 'Gallery', icon: GalleryHorizontal },
     { href: `${base}/settings`, label: 'Setări', icon: Settings },
   ]
 
