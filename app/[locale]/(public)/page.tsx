@@ -4,6 +4,7 @@ import { getActiveTheme } from '@/lib/theme'
 import HeroSection from '@/components/features/home/HeroSection'
 import FeaturedActivities from '@/components/features/home/FeaturedActivities'
 import CTASection from '@/components/features/home/CTASection'
+import GalleryTeaser from '@/components/features/home/GalleryTeaser'
 import { Theme } from '@prisma/client'
 import type { LocalizedActivity } from '@/types'
 import type { Metadata } from 'next'
@@ -79,7 +80,8 @@ export default async function HomePage() {
       <HeroSection />
       <FeaturedActivities />
       <AboutTeaser aboutText={aboutText?.value} locale={locale} theme={theme} />
-      <CTASection theme={theme} />
+      <GalleryTeaser />
+      <CTASection />
     </>
   )
 }
