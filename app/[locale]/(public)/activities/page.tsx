@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation'
 import { Prisma, Theme } from '@prisma/client'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Activități' }
+export const metadata: Metadata = { title: 'Activities' }
 export const revalidate = 60
 
 const seasonEmojis: Record<string, string> = {
@@ -14,12 +14,6 @@ const seasonEmojis: Record<string, string> = {
   'ciclism-montan': '🚵',
   'drumetii-munte': '🥾',
   paddleboard: '🏄',
-}
-
-const seasonBadgeStyles: Record<string, { backgroundColor: string; color: string }> = {
-  WINTER: { backgroundColor: 'rgba(13,43,78,0.8)', color: '#7ec8e3' },
-  SUMMER: { backgroundColor: 'rgba(26,71,49,0.8)', color: '#90ee90' },
-  BOTH: { backgroundColor: 'rgba(232,116,107,0.15)', color: 'var(--brand-coral)' },
 }
 
 export default async function ActivitiesPage() {
@@ -47,6 +41,12 @@ export default async function ActivitiesPage() {
     ORDER BY ${seasonPriority}, a."sortOrder"
   `
 
+  const seasonColors: Record<string, string> = {
+    WINTER: '#7ec8e3',
+    SUMMER: '#90ee90',
+    BOTH: 'var(--brand-coral)',
+  }
+
   const seasonLabels: Record<string, string> = {
     WINTER: t('season_winter'),
     SUMMER: t('season_summer'),
@@ -54,55 +54,81 @@ export default async function ActivitiesPage() {
   }
 
   return (
-    <div style={{ backgroundColor: 'var(--theme-dark-base, #0a0f1e)' }}>
+    <div style={{ backgroundColor: 'var(--theme-dark-base)' }}>
+
       {/* Hero */}
-      <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-28 pb-16">
+      <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-32 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-          <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
+          <p className="text-[9px] tracking-[3px] uppercase font-bold mb-4" style={{ color: 'var(--brand-coral)' }}>
             {tHome('featured_label')}
           </p>
-          <h1 className="text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
+          <h1
+            className="font-display text-white leading-none"
+            style={{ fontSize: 'clamp(3.5rem, 8vw, 7rem)' }}
+          >
             {t('page_title')}
           </h1>
-          <p className="text-white/50 text-lg mt-3 max-w-xl">{t('page_subtitle')}</p>
+          <p className="text-white/40 text-sm mt-4 max-w-xl">{t('page_subtitle')}</p>
         </div>
       </section>
 
       {/* Activity list */}
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
-        <div className="flex flex-col gap-3">
-          {activities.map((activity) => {
-            const badgeStyle = seasonBadgeStyles[activity.season] ?? seasonBadgeStyles.BOTH
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16 lg:py-24">
+        <div className="flex flex-col border-t border-white/6">
+          {activities.map((activity, index) => {
             const emoji = seasonEmojis[activity.slug] ?? '🏔️'
+            const seasonColor = seasonColors[activity.season] ?? 'var(--brand-coral)'
+            const price = Number(activity.priceFrom).toFixed(0)
 
             return (
               <Link
                 key={activity.id}
                 href={`/activities/${activity.slug}`}
-                className="group flex items-center justify-between px-5 py-4 rounded-sm border border-white/[0.06] transition-all duration-200 hover:border-[#E8746B]/25"
-                style={{ backgroundColor: 'var(--theme-card-tint, rgba(255,255,255,0.03))' }}
+                className="card-hover-line group flex items-center gap-6 lg:gap-8 py-7 border-b border-white/6 transition-all duration-300 hover:bg-white/[0.02]"
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">{emoji}</span>
-                  <div>
-                    <p className="text-sm font-bold uppercase tracking-wide text-white">
-                      {activity.name}
-                    </p>
-                    <p className="text-xs text-white/35 mt-0.5 line-clamp-1">
-                      {activity.shortDesc}
-                    </p>
-                  </div>
+                {/* Index */}
+                <span
+                  className="font-display text-white/6 select-none flex-shrink-0 leading-none w-14 text-right hidden sm:block"
+                  style={{ fontSize: '3rem' }}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+
+                {/* Emoji */}
+                <span className="text-2xl flex-shrink-0">{emoji}</span>
+
+                {/* Name + desc */}
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="font-display text-white leading-none mb-2"
+                    style={{ fontSize: 'clamp(1.3rem, 2vw, 1.8rem)' }}
+                  >
+                    {activity.name}
+                  </p>
+                  <p className="text-xs text-white/30 line-clamp-1">
+                    {activity.shortDesc}
+                  </p>
                 </div>
 
-                <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-                  <span
-                    className="px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wide"
-                    style={badgeStyle}
-                  >
-                    {seasonLabels[activity.season]}
+                {/* Season badge */}
+                <span
+                  className="hidden md:block text-[9px] tracking-[2px] uppercase font-bold px-3 py-1.5 flex-shrink-0 border"
+                  style={{
+                    color: seasonColor,
+                    borderColor: `${seasonColor}33`,
+                    backgroundColor: `${seasonColor}10`,
+                  }}
+                >
+                  {seasonLabels[activity.season]}
+                </span>
+
+                {/* Price + arrow */}
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <span className="text-sm text-white/30 hidden lg:block">
+                    {price} <span className="text-white/15">RON</span>
                   </span>
                   <span
-                    className="text-lg leading-none group-hover:translate-x-0.5 transition-transform"
+                    className="text-xl font-bold transition-transform duration-300 group-hover:translate-x-1"
                     style={{ color: 'var(--brand-coral)' }}
                   >
                     →

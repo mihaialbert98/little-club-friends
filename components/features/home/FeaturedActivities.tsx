@@ -23,19 +23,19 @@ interface RawActivity {
   translations: RawActivityTranslation[] | null
 }
 
-const SEASON_EMOJIS: Record<string, string> = {
-  skiing: '⛷️',
-  snowboard: '🏂',
-  biking: '🚵',
-  hiking: '🥾',
-  paddleboard: '🏄',
+const ACTIVITY_CONFIG: Record<string, { emoji: string; color: string; bg: string }> = {
+  skiing:     { emoji: '⛷️', color: 'var(--activity-ski)',     bg: 'rgba(79,195,247,0.1)' },
+  snowboard:  { emoji: '🏂', color: 'var(--activity-snow)',    bg: 'rgba(179,157,219,0.1)' },
+  biking:     { emoji: '🚵', color: 'var(--activity-bike)',    bg: 'rgba(129,199,132,0.1)' },
+  hiking:     { emoji: '🥾', color: 'var(--activity-hike)',    bg: 'rgba(255,183,77,0.1)' },
+  paddleboard:{ emoji: '🏄', color: 'var(--activity-paddle)',  bg: 'rgba(77,208,225,0.1)' },
 }
 
-function getEmoji(slug: string): string {
-  for (const [key, emoji] of Object.entries(SEASON_EMOJIS)) {
-    if (slug.includes(key)) return emoji
+function getActivityConfig(slug: string) {
+  for (const [key, cfg] of Object.entries(ACTIVITY_CONFIG)) {
+    if (slug.includes(key)) return cfg
   }
-  return '🏔️'
+  return { emoji: '🏔️', color: 'var(--brand-coral)', bg: 'rgba(232,116,107,0.1)' }
 }
 
 export default async function FeaturedActivities() {
@@ -59,82 +59,122 @@ export default async function FeaturedActivities() {
   if (rawActivities.length === 0) return null
 
   return (
-    <section style={{ backgroundColor: 'var(--theme-dark-mid, #070c16)' }} className="py-20 lg:py-28">
+    <section style={{ backgroundColor: 'var(--theme-dark-mid)' }} className="py-20 lg:py-28">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-        {/* Section header */}
-        <div className="flex items-end justify-between mb-10">
+
+        {/* Header */}
+        <div className="flex items-end justify-between mb-12">
           <div>
-            <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
-              {t('featured_label')}
-            </p>
-            <h2 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-white">
+            <p className="section-label mb-3">{t('featured_label')}</p>
+            <h2
+              className="font-display text-white"
+              style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', lineHeight: 1.1 }}
+            >
               {t('featured_title')}
             </h2>
           </div>
           <Link
             href="/activities"
-            className="hidden sm:block text-[10px] tracking-[1px] uppercase font-bold border border-white/15 px-4 py-2 rounded-sm text-white/50 hover:text-white hover:border-white/30 transition-colors"
+            className="hidden sm:flex items-center gap-2 text-xs font-bold text-white/30 hover:text-white transition-colors group rounded-full px-5 py-2 border border-white/10 hover:border-white/25"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
-            View all →
+            View all
+            <span className="transition-transform group-hover:translate-x-1" style={{ color: 'var(--brand-coral)' }}>→</span>
           </Link>
         </div>
 
-        {/* Activity rows */}
-        <div className="flex flex-col gap-2">
+        {/* Activity cards — colorful, tilt on hover */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {rawActivities.map((activity) => {
-            const translation =
-              activity.translations?.find((tr) => tr.locale === locale) ??
-              activity.translations?.[0]
-
+            const translation = activity.translations?.find((tr) => tr.locale === locale) ?? activity.translations?.[0]
+            const cfg = getActivityConfig(activity.slug)
+            const price = Number(activity.priceFrom).toFixed(0)
             const isWinterActivity = activity.season === Season.WINTER
             const isSummerActivity = activity.season === Season.SUMMER
-            const badgeColor = isWinterActivity
-              ? { color: '#7ec8e3', bg: 'rgba(13,43,78,0.8)', border: 'rgba(126,200,227,0.3)' }
-              : isSummerActivity
-              ? { color: '#90ee90', bg: 'rgba(26,71,49,0.8)', border: 'rgba(144,238,144,0.3)' }
-              : { color: 'var(--brand-coral)', bg: 'var(--brand-coral-muted)', border: 'var(--brand-coral-border)' }
-
             const seasonLabel = isWinterActivity ? 'Winter' : isSummerActivity ? 'Summer' : 'Year-round'
 
             return (
               <Link
                 key={activity.id}
-                href="/activities"
-                className="group flex items-center justify-between px-5 py-4 rounded-sm border border-white/6 transition-all duration-200 hover:border-[#E8746B]/25"
-                style={{ backgroundColor: 'var(--theme-card-tint, rgba(255,255,255,0.03))' }}
+                href={`/activities/${activity.slug}`}
+                className="adventure-card group block rounded-2xl overflow-hidden border"
+                style={{
+                  backgroundColor: cfg.bg,
+                  borderColor: `${cfg.color}30`,
+                }}
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">{getEmoji(activity.slug)}</span>
-                  <div>
-                    <p className="text-sm font-bold uppercase tracking-wide text-white">
-                      {translation?.name ?? activity.slug}
-                    </p>
-                    <p className="text-xs text-white/35 mt-0.5">
-                      Ages {activity.ageMin}–{activity.ageMax} · {activity.durationMin} min · From {Number(activity.priceFrom)} RON
-                    </p>
+                {/* Top color strip */}
+                <div
+                  className="h-1.5 w-full"
+                  style={{ background: `linear-gradient(to right, ${cfg.color}, ${cfg.color}88)` }}
+                />
+
+                <div className="p-6">
+                  {/* Emoji + season tag row */}
+                  <div className="flex items-start justify-between mb-4">
+                    <span
+                      className="text-4xl block"
+                      style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }}
+                    >
+                      {cfg.emoji}
+                    </span>
+                    <span
+                      className="sticker text-[9px]"
+                      style={{ color: cfg.color, borderColor: `${cfg.color}50`, backgroundColor: `${cfg.color}18` }}
+                    >
+                      {seasonLabel}
+                    </span>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span
-                    className="hidden sm:inline-block text-[9px] tracking-[1px] uppercase font-bold px-2.5 py-1 rounded-sm border"
-                    style={{
-                      color: badgeColor.color,
-                      backgroundColor: badgeColor.bg,
-                      borderColor: badgeColor.border,
-                    }}
+
+                  {/* Activity name */}
+                  <h3
+                    className="font-display text-white mb-2 group-hover:opacity-90 transition-opacity"
+                    style={{ fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', lineHeight: 1.1 }}
                   >
-                    {seasonLabel}
-                  </span>
-                  <span
-                    className="text-sm font-bold transition-transform group-hover:translate-x-1"
-                    style={{ color: 'var(--brand-coral)' }}
+                    {translation?.name ?? activity.slug}
+                  </h3>
+
+                  {/* Meta row */}
+                  <p
+                    className="text-xs mb-5"
+                    style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)' }}
                   >
-                    →
-                  </span>
+                    Ages {activity.ageMin}–{activity.ageMax} · {activity.durationMin} min
+                  </p>
+
+                  {/* Price + arrow footer */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs text-white/30" style={{ fontFamily: 'var(--font-body)' }}>from </span>
+                      <span
+                        className="font-display"
+                        style={{ fontSize: '1.5rem', color: cfg.color }}
+                      >
+                        {price}
+                        <span className="text-sm text-white/30 ml-1">RON</span>
+                      </span>
+                    </div>
+                    <div
+                      className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                      style={{ backgroundColor: cfg.color, color: 'var(--theme-dark-base)' }}
+                    >
+                      <span className="text-sm font-bold">→</span>
+                    </div>
+                  </div>
                 </div>
               </Link>
             )
           })}
+        </div>
+
+        {/* Mobile view all */}
+        <div className="mt-8 flex justify-center sm:hidden">
+          <Link
+            href="/activities"
+            className="btn-coral"
+          >
+            View all activities →
+          </Link>
         </div>
       </div>
     </section>

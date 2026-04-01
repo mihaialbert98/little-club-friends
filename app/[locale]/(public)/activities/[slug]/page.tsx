@@ -8,10 +8,10 @@ interface PageProps {
   params: Promise<{ slug: string; locale: string }>
 }
 
-const seasonBadgeStyles: Record<string, { backgroundColor: string; color: string }> = {
-  WINTER: { backgroundColor: 'rgba(13,43,78,0.8)', color: '#7ec8e3' },
-  SUMMER: { backgroundColor: 'rgba(26,71,49,0.8)', color: '#90ee90' },
-  BOTH: { backgroundColor: 'rgba(232,116,107,0.15)', color: 'var(--brand-coral)' },
+const seasonColors: Record<string, string> = {
+  WINTER: '#7ec8e3',
+  SUMMER: '#90ee90',
+  BOTH: 'var(--brand-coral)',
 }
 
 const seasonEmojis: Record<string, string> = {
@@ -29,11 +29,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     include: { translations: true },
   })
   if (!activity) return { title: 'Activity Not Found' }
-
   const translation =
     activity.translations.find((t) => t.locale === locale) ??
     activity.translations[0]
-
   return { title: translation?.name ?? slug }
 }
 
@@ -57,52 +55,49 @@ export default async function ActivityDetailPage({ params }: PageProps) {
     include: { translations: true },
   })
 
-  if (!activity || !activity.isActive) {
-    notFound()
-  }
+  if (!activity || !activity.isActive) notFound()
 
   const translation =
     activity.translations.find((tr) => tr.locale === locale) ??
     activity.translations[0]
 
-  if (!translation) {
-    notFound()
-  }
-
-  const badgeStyle = seasonBadgeStyles[activity.season] ?? seasonBadgeStyles.BOTH
-  const emoji = seasonEmojis[slug] ?? '🏔️'
+  if (!translation) notFound()
 
   const seasonLabelKey =
     activity.season === 'WINTER'
       ? 'season_label_winter'
       : activity.season === 'SUMMER'
-        ? 'season_label_summer'
-        : 'season_label_both'
+      ? 'season_label_summer'
+      : 'season_label_both'
 
+  const seasonColor = seasonColors[activity.season] ?? 'var(--brand-coral)'
+  const emoji = seasonEmojis[slug] ?? '🏔️'
   const price = Number(activity.priceFrom).toFixed(0)
 
   return (
-    <div style={{ backgroundColor: 'var(--theme-dark-base, #0a0f1e)' }}>
+    <div style={{ backgroundColor: 'var(--theme-dark-base)' }}>
+
       {/* Hero */}
-      <section
-        style={{ background: 'var(--theme-hero-gradient)' }}
-        className="pt-28 pb-16"
-      >
+      <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-32 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           {/* Back link */}
           <Link
             href="/activities"
-            className="inline-flex items-center text-xs font-bold tracking-[1px] uppercase mb-8 transition-opacity hover:opacity-70"
+            className="inline-flex items-center gap-2 text-[9px] tracking-[2px] uppercase font-bold mb-10 transition-opacity hover:opacity-60"
             style={{ color: 'var(--brand-coral)' }}
           >
-            {t('back_link')}
+            ← {t('back_link').replace('← ', '')}
           </Link>
 
           {/* Season badge */}
-          <div className="mb-4">
+          <div className="mb-5">
             <span
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-[10px] font-bold uppercase tracking-widest"
-              style={badgeStyle}
+              className="inline-flex items-center gap-2 text-[9px] tracking-[2px] uppercase font-bold px-3 py-1.5 border"
+              style={{
+                color: seasonColor,
+                borderColor: `${seasonColor}33`,
+                backgroundColor: `${seasonColor}10`,
+              }}
             >
               <span>{emoji}</span>
               {t(seasonLabelKey)}
@@ -110,12 +105,14 @@ export default async function ActivityDetailPage({ params }: PageProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl lg:text-6xl font-black uppercase tracking-tight text-white leading-none mb-4">
+          <h1
+            className="font-display text-white leading-none mb-5"
+            style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}
+          >
             {translation.name}
           </h1>
 
-          {/* Short description */}
-          <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
+          <p className="text-white/50 text-base max-w-2xl leading-relaxed">
             {translation.shortDesc}
           </p>
         </div>
@@ -124,91 +121,75 @@ export default async function ActivityDetailPage({ params }: PageProps) {
       {/* Content */}
       <section className="py-16 lg:py-24">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
-          {/* Description — 2/3 */}
+
+          {/* Description */}
           <div className="lg:col-span-2">
+            <p
+              className="text-[9px] tracking-[3px] uppercase font-bold mb-6"
+              style={{ color: 'var(--brand-coral)' }}
+            >
+              About this activity
+            </p>
             <div
-              className="text-white/70 leading-relaxed text-base space-y-4"
+              className="text-white/60 leading-relaxed text-sm space-y-4"
               style={{ whiteSpace: 'pre-wrap' }}
             >
               {translation.description}
             </div>
           </div>
 
-          {/* Info card — 1/3 */}
+          {/* Info card */}
           <div className="lg:col-span-1">
             <div
-              className="rounded-sm border p-6 flex flex-col gap-5 sticky top-28"
+              className="flex flex-col gap-0 sticky top-28 border"
               style={{
-                backgroundColor: 'var(--theme-card-tint, rgba(255,255,255,0.03))',
-                borderColor: 'var(--brand-coral-border, rgba(232,116,107,0.3))',
+                backgroundColor: 'rgba(255,255,255,0.02)',
+                borderColor: 'rgba(255,255,255,0.08)',
               }}
             >
-              {/* Age range */}
-              <div className="flex flex-col gap-1">
+              {/* Price — prominent */}
+              <div
+                className="p-6 border-b"
+                style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+              >
+                <p className="text-[9px] tracking-[2px] uppercase font-bold text-white/30 mb-2">Price from</p>
                 <p
-                  className="text-[10px] tracking-[2px] uppercase font-bold"
-                  style={{ color: 'var(--brand-coral)' }}
+                  className="font-display leading-none"
+                  style={{ fontSize: '3.5rem', color: 'var(--brand-coral)' }}
                 >
-                  {t('age')}
-                </p>
-                <p className="text-white font-semibold text-sm">
-                  {t('age_range', { min: activity.ageMin, max: activity.ageMax })}
+                  {price}
+                  <span className="text-lg text-white/30 ml-2">RON</span>
                 </p>
               </div>
 
+              {/* Details */}
               <div
-                className="border-t"
+                className="p-6 flex flex-col gap-5 border-b"
                 style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-              />
-
-              {/* Duration */}
-              <div className="flex flex-col gap-1">
-                <p
-                  className="text-[10px] tracking-[2px] uppercase font-bold"
-                  style={{ color: 'var(--brand-coral)' }}
-                >
-                  {t('duration')}
-                </p>
-                <p className="text-white font-semibold text-sm">
-                  {t('duration', { min: activity.durationMin })}
-                </p>
+              >
+                <div>
+                  <p className="text-[9px] tracking-[2px] uppercase font-bold text-white/30 mb-1">Age</p>
+                  <p className="text-white font-semibold text-sm">
+                    {t('age_range', { min: activity.ageMin, max: activity.ageMax })}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[9px] tracking-[2px] uppercase font-bold text-white/30 mb-1">Duration</p>
+                  <p className="text-white font-semibold text-sm">
+                    {activity.durationMin} min
+                  </p>
+                </div>
               </div>
-
-              <div
-                className="border-t"
-                style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-              />
-
-              {/* Price */}
-              <div className="flex flex-col gap-1">
-                <p
-                  className="text-[10px] tracking-[2px] uppercase font-bold"
-                  style={{ color: 'var(--brand-coral)' }}
-                >
-                  {t('price_from', { price })}
-                </p>
-                <p
-                  className="text-3xl font-black"
-                  style={{ color: 'var(--brand-coral)' }}
-                >
-                  {price}{' '}
-                  <span className="text-base font-semibold text-white/50">RON</span>
-                </p>
-              </div>
-
-              <div
-                className="border-t"
-                style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-              />
 
               {/* CTA */}
-              <Link
-                href="/booking"
-                className="w-full py-4 rounded-sm text-center text-sm tracking-[1.5px] uppercase font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.98] block"
-                style={{ backgroundColor: 'var(--brand-coral)' }}
-              >
-                {t('book_cta')}
-              </Link>
+              <div className="p-6">
+                <Link
+                  href="/booking"
+                  className="btn-coral w-full text-center block"
+                >
+                  {t('book_cta')}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

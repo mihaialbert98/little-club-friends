@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
-import { Nunito, Nunito_Sans } from 'next/font/google'
+import { Righteous, Nunito } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
 import './globals.css'
 
-const nunito = Nunito({
+const righteous = Righteous({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-nunito',
+  variable: '--font-display',
   display: 'swap',
 })
 
-const nunitoSans = Nunito_Sans({
+const nunito = Nunito({
   subsets: ['latin'],
-  variable: '--font-nunito-sans',
+  variable: '--font-body',
   display: 'swap',
 })
 
@@ -36,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang={locale}
-      className={`${nunito.variable} ${nunitoSans.variable} h-full antialiased`}
+      className={`${righteous.variable} ${nunito.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">

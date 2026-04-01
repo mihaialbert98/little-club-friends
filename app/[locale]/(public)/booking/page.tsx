@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import BookingForm from '@/components/features/booking/BookingForm'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Rezervare' }
+export const metadata: Metadata = { title: 'Book Now' }
 
 export default async function BookingPage() {
   const locale = await getLocale()
@@ -21,22 +21,30 @@ export default async function BookingPage() {
   }))
 
   return (
-    <div style={{ backgroundColor: 'var(--theme-dark-base, #0a0f1e)' }}>
+    <div style={{ backgroundColor: 'var(--theme-dark-base)' }}>
+
       {/* Hero */}
-      <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-28 pb-16">
+      <section style={{ background: 'var(--theme-hero-gradient)' }} className="pt-32 pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-          <p className="text-[10px] tracking-[2px] uppercase font-bold mb-2" style={{ color: 'var(--brand-coral)' }}>
+          <p className="text-[9px] tracking-[3px] uppercase font-bold mb-4" style={{ color: 'var(--brand-coral)' }}>
             Book Now
           </p>
-          <h1 className="text-4xl lg:text-5xl font-black uppercase tracking-tight text-white">
+          <h1
+            className="font-display text-white leading-none"
+            style={{ fontSize: 'clamp(3.5rem, 8vw, 7rem)' }}
+          >
             {t('page_title')}
           </h1>
+          <p className="text-white/40 text-sm mt-4">{t('page_subtitle')}</p>
         </div>
       </section>
 
       {/* Form */}
-      <div className="max-w-2xl mx-auto py-16 px-6">
-        <div className="bg-white/5 border border-white/10 rounded-sm p-8">
+      <div className="max-w-[720px] mx-auto py-16 lg:py-24 px-6">
+        <div
+          className="border border-white/8 p-8 lg:p-12"
+          style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}
+        >
           <BookingForm activities={activityOptions} />
         </div>
       </div>
