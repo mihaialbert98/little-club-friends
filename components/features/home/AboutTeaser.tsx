@@ -84,7 +84,7 @@ export default async function AboutTeaser() {
                   boxShadow: `0 8px 40px rgba(0,0,0,0.5), 0 0 24px ${stat.color}20`,
                   '--float-rotate': stat.rotate,
                   animationDuration: ['3.5s', '4.2s', '3.8s'][i],
-                  animationDelay: [`${i * 0.4}s`],
+                  animationDelay: `${i * 0.4}s`,
                   ...(i === 0 ? { top: '8%', right: '-5%' } : {}),
                   ...(i === 1 ? { bottom: '28%', right: '-8%' } : {}),
                   ...(i === 2 ? { bottom: '6%', left: '6%' } : {}),
