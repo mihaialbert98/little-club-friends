@@ -71,7 +71,15 @@
     "min": "min",
     "season_winter": "Winter",
     "season_summer": "Summer",
-    "season_both": "Year-round"
+    "season_both": "Year-round",
+    "age_range": "Age: {min}–{max} years",
+    "duration": "Duration: {min} min",
+    "price_from": "From {price} RON",
+    "book_cta": "Book this activity",
+    "back_link": "← Back to activities",
+    "season_label_winter": "Winter season",
+    "season_label_summer": "Summer season",
+    "season_label_both": "Year-round"
   },
   "instructors": {
     "page_title": "Our instructors",

@@ -71,7 +71,15 @@
     "min": "min",
     "season_winter": "Iarnă",
     "season_summer": "Vară",
-    "season_both": "Tot anul"
+    "season_both": "Tot anul",
+    "age_range": "Vârstă: {min}–{max} ani",
+    "duration": "Durată: {min} min",
+    "price_from": "De la {price} RON",
+    "book_cta": "Rezervă această activitate",
+    "back_link": "← Înapoi la activități",
+    "season_label_winter": "Sezon de iarnă",
+    "season_label_summer": "Sezon de vară",
+    "season_label_both": "Tot anul"
   },
   "instructors": {
     "page_title": "Instructorii noștri",

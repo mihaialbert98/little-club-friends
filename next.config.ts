@@ -13,6 +13,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
+    localPatterns: [
+      { pathname: '/scraped/**' },
+      { pathname: '/logo.png' },
+    ],
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
