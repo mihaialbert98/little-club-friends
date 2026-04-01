@@ -60,26 +60,29 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative text-[9px] tracking-[2px] uppercase font-bold transition-colors pb-0.5 ${
+                className={`relative text-[9px] tracking-[2px] uppercase font-bold transition-all duration-200 pb-1 ${
                   isActive(link.href)
                     ? 'text-white'
-                    : 'text-white/45 hover:text-white/80'
+                    : 'text-white/40 hover:text-white/75'
                 }`}
               >
                 {link.label}
-                {isActive(link.href) && (
-                  <span
-                    className="absolute bottom-0 left-0 right-0 h-px"
-                    style={{ backgroundColor: 'var(--brand-coral)' }}
-                  />
-                )}
+                <span
+                  className="absolute bottom-0 left-0 right-0 h-px transition-all duration-300"
+                  style={{
+                    backgroundColor: 'var(--brand-coral)',
+                    transform: isActive(link.href) ? 'scaleX(1)' : 'scaleX(0)',
+                    transformOrigin: 'left',
+                    boxShadow: isActive(link.href) ? '0 0 8px rgba(232,116,107,0.6)' : 'none',
+                  }}
+                />
               </Link>
             ))}
             <LanguageSwitcher />
             <Link
               href={`/${locale}/booking`}
               className="btn-coral"
-              style={{ padding: '0.5rem 1.25rem', fontSize: '0.65rem' }}
+              style={{ padding: '0.55rem 1.3rem', fontSize: '0.65rem' }}
             >
               {t('book_now')}
             </Link>
@@ -123,7 +126,7 @@ export default function Navbar() {
           {/* Links */}
           <div className="flex flex-col flex-1 px-6 pt-12 pb-8 justify-between">
             <nav className="flex flex-col gap-0">
-              {links.map((link, i) => (
+              {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

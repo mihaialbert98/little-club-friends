@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing'
 import { getActiveTheme } from '@/lib/theme'
 import { ThemeProvider } from '@/components/features/theme/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
+import SeasonalOverlay from '@/components/features/effects/SeasonalOverlay'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -30,6 +31,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider initialTheme={activeTheme}>
         {children}
+        <SeasonalOverlay />
         <Toaster richColors position="top-right" />
       </ThemeProvider>
     </NextIntlClientProvider>
