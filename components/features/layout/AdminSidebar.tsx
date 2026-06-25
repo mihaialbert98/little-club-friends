@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 import {
   Mountain, LayoutDashboard, Users,
-  Image as ImageIcon, FileText, Settings, LogOut, Activity, GalleryHorizontal
+  Image as ImageIcon, FileText, Settings, LogOut, Activity, GalleryHorizontal,
+  Tent, CalendarDays
 } from 'lucide-react'
 
 interface AdminSidebarProps {
@@ -19,6 +20,8 @@ export default function AdminSidebar({ locale }: AdminSidebarProps) {
   const navItems = [
     { href: base, label: 'Dashboard', icon: LayoutDashboard },
     { href: `${base}/activities`, label: 'Activități', icon: Activity },
+    { href: `${base}/tabere`, label: 'Tabere', icon: Tent },
+    { href: `${base}/weekend`, label: 'Activități weekend', icon: CalendarDays },
     { href: `${base}/instructors`, label: 'Instructori', icon: Users },
     { href: `${base}/content`, label: 'Page Content', icon: FileText },
     { href: `${base}/photos`, label: 'Section Photos', icon: ImageIcon },

@@ -23,7 +23,7 @@ const SECTIONS: SectionDef[] = [
   { key: 'home.about_strip', label: 'Acasă — Secțiunea „De ce noi”', description: 'Fotografia din secțiunea despre noi (instructor + copil)', fallbackUrl: '/scraped/api-media/IMG_1787-scaled.webp' },
   { key: 'instructors.hero_bg', label: 'Instructori — Imagine principală', description: 'Fotografia de fundal din antetul paginii Instructori', fallbackUrl: '/scraped/instructori/IMG_1392-scaled-e1735057973622.jpg' },
   { key: 'instructors.action', label: 'Instructori — Fotografie acțiune', description: 'Banda foto din partea de jos a paginii Instructori', fallbackUrl: '/scraped/home/IMG_1790-scaled.jpeg' },
-  { key: 'about.hero_bg', label: 'Despre noi — Imagine principală', description: 'Fotografia de fundal din antetul paginii Despre noi', fallbackUrl: '/scraped/despre-noi/149d3d6f-7898-48f0-b00b-d1cf11ee27fa.webp' },
+  { key: 'about.hero_bg', label: 'Despre noi — Imagine principală', description: 'Fotografia de fundal din antetul paginii Despre noi', fallbackUrl: '/scraped/despre-noi/149d3d6f-8513-4753-ab85-77865f84889b.webp' },
   { key: 'about.story', label: 'Despre noi — Fotografie poveste', description: 'Fotografia de lângă textul „Povestea noastră”', fallbackUrl: '/scraped/despre-noi/IMG_3878-scaled.jpeg' },
 ]
 

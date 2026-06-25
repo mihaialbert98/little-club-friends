@@ -15,6 +15,21 @@ export function telHref(phone: string): string {
   return `tel:${phone.replace(/[^+\d]/g, '')}`
 }
 
+// Format an optional date range for display. Returns null when no dates set.
+// e.g. "12 iulie – 18 iulie 2026" / "12 iulie 2026" / null
+export function formatDateRange(
+  start: string | null,
+  end: string | null,
+  locale: string
+): string | null {
+  if (!start && !end) return null
+  const loc = locale === 'en' ? 'en-GB' : 'ro-RO'
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString(loc, { day: 'numeric', month: 'long', year: 'numeric' })
+  if (start && end) return `${fmt(start)} – ${fmt(end)}`
+  return fmt((start ?? end)!)
+}
+
 // Turn a name into a URL-safe slug (handles Romanian diacritics).
 export function slugify(input: string): string {
   return input

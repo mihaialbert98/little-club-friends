@@ -60,7 +60,7 @@ const SECTION_PHOTO_FALLBACKS: Record<string, { url: string; alt: string }> = {
     alt: 'Instructor and child in a gondola',
   },
   'about.hero_bg': {
-    url: '/scraped/despre-noi/149d3d6f-7898-48f0-b00b-d1cf11ee27fa.webp',
+    url: '/scraped/despre-noi/149d3d6f-8513-4753-ab85-77865f84889b.webp',
     alt: 'Little Club Friends instructors',
   },
   'about.story': {

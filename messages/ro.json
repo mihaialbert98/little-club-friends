@@ -1,6 +1,8 @@
 {
   "nav": {
     "activities": "Activități",
+    "tabere": "Tabere",
+    "weekend": "Activități weekend",
     "instructors": "Instructori",
     "gallery": "Galerie",
     "about": "Despre noi",
@@ -79,6 +81,30 @@
     "season_label_winter": "Sezon de iarnă",
     "season_label_summer": "Sezon de vară",
     "season_label_both": "Tot anul"
+  },
+  "tabere": {
+    "label": "Pentru copii",
+    "page_title": "Tabere",
+    "page_subtitle": "Tabere de aventură pentru copii la Poiana Brașov",
+    "empty": "Momentan nu există tabere programate. Sună-ne pentru detalii.",
+    "back_link": "Înapoi la tabere",
+    "about_label": "Despre această tabără",
+    "dates_label": "Perioadă",
+    "cta": "Sună pentru rezervare",
+    "home_title": "Taberele noastre",
+    "home_cta": "Vezi toate taberele"
+  },
+  "weekend": {
+    "label": "",
+    "page_title": "Activități de weekend",
+    "page_subtitle": "Aventuri de weekend pentru copii la munte",
+    "empty": "Momentan nu există activități de weekend programate. Sună-ne pentru detalii.",
+    "back_link": "Înapoi la activități de weekend",
+    "about_label": "Despre această activitate",
+    "dates_label": "Perioadă",
+    "cta": "Sună pentru rezervare",
+    "home_title": "Activități de weekend",
+    "home_cta": "Vezi toate activitățile"
   },
   "instructors": {
     "page_title": "Instructorii noștri",

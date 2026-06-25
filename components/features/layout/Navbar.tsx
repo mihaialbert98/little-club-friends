@@ -25,6 +25,8 @@ export default function Navbar({ phone = CONTACT_PHONE }: { phone?: string }) {
 
   const links = [
     { href: `/${locale}/activities`, label: t('activities') },
+    { href: `/${locale}/tabere`, label: t('tabere') },
+    { href: `/${locale}/weekend`, label: t('weekend') },
     { href: `/${locale}/instructors`, label: t('instructors') },
     { href: `/${locale}/gallery`, label: t('gallery') },
     { href: `/${locale}/about`, label: t('about') },

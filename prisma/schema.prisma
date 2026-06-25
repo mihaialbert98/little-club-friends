@@ -169,6 +169,89 @@ model InstructorTranslation {
   @@unique([instructorId, locale])
 }
 
+// ─── CAMPS (Tabere) ───────────────────────────────────────────────────────────
+// Bilingual name/description + external-link images + optional date range.
+
+model Camp {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  translations CampTranslation[]
+  images       CampImage[]
+}
+
+model CampTranslation {
+  id          String @id @default(cuid())
+  campId      String
+  locale      String // "ro" | "en"
+  name        String
+  description String @db.Text
+  shortDesc   String
+
+  camp Camp @relation(fields: [campId], references: [id], onDelete: Cascade)
+
+  @@unique([campId, locale])
+}
+
+model CampImage {
+  id        String  @id @default(cuid())
+  campId    String
+  url       String
+  publicId  String  @default("")
+  alt       String  @default("")
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+
+  camp Camp @relation(fields: [campId], references: [id], onDelete: Cascade)
+}
+
+// ─── WEEKEND ACTIVITIES (Activități de weekend) ───────────────────────────────
+
+model WeekendActivity {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  translations WeekendActivityTranslation[]
+  images       WeekendActivityImage[]
+}
+
+model WeekendActivityTranslation {
+  id          String @id @default(cuid())
+  weekendId   String
+  locale      String // "ro" | "en"
+  name        String
+  description String @db.Text
+  shortDesc   String
+
+  weekend WeekendActivity @relation(fields: [weekendId], references: [id], onDelete: Cascade)
+
+  @@unique([weekendId, locale])
+}
+
+model WeekendActivityImage {
+  id        String  @id @default(cuid())
+  weekendId String
+  url       String
+  publicId  String  @default("")
+  alt       String  @default("")
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+
+  weekend WeekendActivity @relation(fields: [weekendId], references: [id], onDelete: Cascade)
+}
+
 // ─── GALLERY ──────────────────────────────────────────────────────────────────
 
 model GalleryPhoto {

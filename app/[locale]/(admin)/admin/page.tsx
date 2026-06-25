@@ -1,12 +1,14 @@
 import { db } from '@/lib/db'
 import { getSiteSettings } from '@/lib/theme'
 import { Theme } from '@prisma/client'
-import { Activity, Users, GalleryHorizontal, Snowflake, Sun } from 'lucide-react'
+import { Activity, Users, GalleryHorizontal, Tent, CalendarDays, Snowflake, Sun } from 'lucide-react'
 
 export default async function AdminDashboard() {
-  const [activitiesCount, instructorsCount, galleryCount, settings] =
+  const [activitiesCount, campsCount, weekendCount, instructorsCount, galleryCount, settings] =
     await Promise.all([
       db.activity.count({ where: { isActive: true } }),
+      db.camp.count({ where: { isActive: true } }),
+      db.weekendActivity.count({ where: { isActive: true } }),
       db.instructor.count({ where: { isActive: true } }),
       db.galleryPhoto.count(),
       getSiteSettings(),
@@ -16,6 +18,8 @@ export default async function AdminDashboard() {
 
   const stats = [
     { label: 'Activități active', value: activitiesCount, icon: Activity, color: '#10b981' },
+    { label: 'Tabere active', value: campsCount, icon: Tent, color: '#f59e0b' },
+    { label: 'Activități weekend', value: weekendCount, icon: CalendarDays, color: '#ec4899' },
     { label: 'Instructori activi', value: instructorsCount, icon: Users, color: '#8b5cf6' },
     { label: 'Poze în galerie', value: galleryCount, icon: GalleryHorizontal, color: '#3b82f6' },
   ]
@@ -37,7 +41,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         {stats.map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between mb-3">
@@ -58,6 +62,8 @@ export default async function AdminDashboard() {
           <div className="space-y-2">
             {[
               { href: './admin/activities/new', label: 'Adaugă o activitate nouă' },
+              { href: './admin/tabere/new', label: 'Adaugă o tabără nouă' },
+              { href: './admin/weekend/new', label: 'Adaugă o activitate de weekend' },
               { href: './admin/instructors/new', label: 'Adaugă un instructor nou' },
               { href: './admin/settings', label: 'Schimbă tema site-ului' },
               { href: './admin/gallery', label: 'Gestionează galeria foto' },

@@ -1,6 +1,8 @@
 {
   "nav": {
     "activities": "Activities",
+    "tabere": "Camps",
+    "weekend": "Weekend activities",
     "instructors": "Instructors",
     "gallery": "Gallery",
     "about": "About",
@@ -79,6 +81,30 @@
     "season_label_winter": "Winter season",
     "season_label_summer": "Summer season",
     "season_label_both": "Year-round"
+  },
+  "tabere": {
+    "label": "For kids",
+    "page_title": "Camps",
+    "page_subtitle": "Adventure camps for children in Poiana Brașov",
+    "empty": "No camps scheduled right now. Call us for details.",
+    "back_link": "Back to camps",
+    "about_label": "About this camp",
+    "dates_label": "Dates",
+    "cta": "Call to book",
+    "home_title": "Our camps",
+    "home_cta": "View all camps"
+  },
+  "weekend": {
+    "label": "",
+    "page_title": "Weekend activities",
+    "page_subtitle": "Weekend adventures for children in the mountains",
+    "empty": "No weekend activities scheduled right now. Call us for details.",
+    "back_link": "Back to weekend activities",
+    "about_label": "About this activity",
+    "dates_label": "Dates",
+    "cta": "Call to book",
+    "home_title": "Weekend activities",
+    "home_cta": "View all activities"
   },
   "instructors": {
     "page_title": "Our instructors",
