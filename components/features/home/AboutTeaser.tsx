@@ -1,23 +1,27 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
-import { getSectionPhoto } from '@/lib/content'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getSectionPhoto, getContentGetter } from '@/lib/content'
 import { Link } from '@/i18n/navigation'
 
 export default async function AboutTeaser() {
   const t = await getTranslations('home')
-  const photo = await getSectionPhoto('home.about_strip')
+  const locale = await getLocale()
+  const [photo, c] = await Promise.all([
+    getSectionPhoto('home.about_strip'),
+    getContentGetter('home', locale),
+  ])
 
   const stats = [
-    { value: t('stat_kids'), label: t('stat_kids_label'), color: 'var(--brand-coral)', rotate: '-2.5deg' },
-    { value: t('stat_years'), label: t('stat_years_label'), color: 'var(--activity-ski)', rotate: '2deg' },
-    { value: t('stat_activities'), label: t('stat_activities_label'), color: 'var(--activity-bike)', rotate: '-1.5deg' },
+    { value: c('stat_kids', t('stat_kids')), label: c('stat_kids_label', t('stat_kids_label')), color: 'var(--brand-coral)', rotate: '-2.5deg' },
+    { value: c('stat_years', t('stat_years')), label: c('stat_years_label', t('stat_years_label')), color: 'var(--activity-ski)', rotate: '2deg' },
+    { value: c('stat_activities', t('stat_activities')), label: c('stat_activities_label', t('stat_activities_label')), color: 'var(--activity-bike)', rotate: '-1.5deg' },
   ]
 
   const values = [
-    { icon: t('value_1_icon'), title: t('value_1_title'), desc: t('value_1_desc') },
-    { icon: t('value_2_icon'), title: t('value_2_title'), desc: t('value_2_desc') },
-    { icon: t('value_3_icon'), title: t('value_3_title'), desc: t('value_3_desc') },
-    { icon: t('value_4_icon'), title: t('value_4_title'), desc: t('value_4_desc') },
+    { icon: c('value_1_icon', t('value_1_icon')), title: c('value_1_title', t('value_1_title')), desc: c('value_1_desc', t('value_1_desc')) },
+    { icon: c('value_2_icon', t('value_2_icon')), title: c('value_2_title', t('value_2_title')), desc: c('value_2_desc', t('value_2_desc')) },
+    { icon: c('value_3_icon', t('value_3_icon')), title: c('value_3_title', t('value_3_title')), desc: c('value_3_desc', t('value_3_desc')) },
+    { icon: c('value_4_icon', t('value_4_icon')), title: c('value_4_title', t('value_4_title')), desc: c('value_4_desc', t('value_4_desc')) },
   ]
 
   return (
@@ -114,14 +118,14 @@ export default async function AboutTeaser() {
               className="font-display text-white"
               style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
             >
-              {t('about_title')}
+              {c('about_title', t('about_title'))}
             </h2>
 
             {/* Accent divider */}
             <div className="glow-line w-20" />
 
             <p className="leading-relaxed text-sm" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)', maxWidth: '440px' }}>
-              {t('about_body')}
+              {c('about_body', t('about_body'))}
             </p>
 
             {/* Value items */}

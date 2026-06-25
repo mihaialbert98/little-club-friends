@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import { Theme } from '@prisma/client'
+import { CONTACT_PHONE } from '@/lib/utils'
 
 export async function getActiveTheme(): Promise<Theme> {
   const settings = await db.siteSettings.findFirst()
@@ -9,6 +10,12 @@ export async function getActiveTheme(): Promise<Theme> {
 export async function getSiteSettings() {
   const settings = await db.siteSettings.findFirst()
   return settings
+}
+
+// Admin-editable phone number (falls back to the default constant).
+export async function getContactPhone(): Promise<string> {
+  const settings = await db.siteSettings.findFirst()
+  return settings?.contactPhone || CONTACT_PHONE
 }
 
 /**

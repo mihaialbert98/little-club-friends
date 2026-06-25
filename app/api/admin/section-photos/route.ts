@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { uploadImage, deleteImage } from '@/lib/cloudinary'
+import { deleteImage } from '@/lib/cloudinary'
 import { revalidatePath } from 'next/cache'
 
 const VALID_KEYS = [
@@ -14,9 +14,9 @@ const VALID_KEYS = [
   'about.story',
 ] as const
 
-const uploadSchema = z.object({
+const saveSchema = z.object({
   sectionKey: z.enum(VALID_KEYS),
-  imageData: z.string().min(1),
+  url: z.string().url('URL invalid'),
   alt: z.string().default(''),
 })
 
@@ -37,25 +37,21 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const parsed = uploadSchema.safeParse(body)
+  const parsed = saveSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
 
-  const { sectionKey, imageData, alt } = parsed.data
+  const { sectionKey, url, alt } = parsed.data
 
+  // If a previous override was a Cloudinary upload, clean it up.
   const existing = await db.sectionPhoto.findUnique({ where: { sectionKey } })
   if (existing?.publicId) {
     await deleteImage(existing.publicId)
   }
 
-  const uploaded = await uploadImage(imageData, {
-    folder: 'little-club-friends/sections',
-    public_id: sectionKey.replace('.', '-'),
-  })
-
   await db.sectionPhoto.upsert({
     where: { sectionKey },
-    update: { url: uploaded.secure_url, publicId: uploaded.public_id, alt },
-    create: { sectionKey, url: uploaded.secure_url, publicId: uploaded.public_id, alt },
+    update: { url, publicId: '', alt },
+    create: { sectionKey, url, publicId: '', alt },
   })
 
   revalidatePath('/ro')
@@ -65,7 +61,7 @@ export async function POST(req: NextRequest) {
   revalidatePath('/ro/instructors')
   revalidatePath('/en/instructors')
 
-  return NextResponse.json({ success: true, url: uploaded.secure_url })
+  return NextResponse.json({ success: true, url })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -81,7 +77,7 @@ export async function DELETE(req: NextRequest) {
   const existing = await db.sectionPhoto.findUnique({ where: { sectionKey } })
   if (!existing) return NextResponse.json({ success: true })
 
-  await deleteImage(existing.publicId)
+  if (existing.publicId) await deleteImage(existing.publicId)
   await db.sectionPhoto.delete({ where: { sectionKey } })
 
   revalidatePath('/ro')

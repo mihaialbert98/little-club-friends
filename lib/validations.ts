@@ -1,55 +1,56 @@
 import { z } from 'zod'
 
-export const BookingSchema = z.object({
-  parentName: z.string().min(2, 'Numele trebuie să aibă cel puțin 2 caractere'),
-  email: z.string().email('Email invalid'),
-  phone: z.string().min(10, 'Număr de telefon invalid'),
-  numberOfChildren: z.coerce.number().int().min(1).max(10),
-  childrenAges: z.string().min(1, 'Vârstele copiilor sunt obligatorii'),
-  activityId: z.string().optional(),
-  preferredDates: z.string().min(1, 'Data preferată este obligatorie'),
-  notes: z.string().optional(),
-})
-
 export const ContactFormSchema = z.object({
   name: z.string().min(2, 'Numele este obligatoriu'),
   email: z.string().email('Email invalid'),
   message: z.string().min(10, 'Mesajul trebuie să aibă cel puțin 10 caractere'),
 })
 
+// ─── ACTIVITIES ─────────────────────────────────────────────────────────────
+// Romanian (ro) content is required; English (en) is optional and falls back
+// to Romanian when empty. Price and age recommendation are optional.
+
+const ActivityImageInput = z.object({
+  url: z.string().url('URL invalid'),
+  alt: z.string().default(''),
+  isPrimary: z.boolean().default(false),
+  sortOrder: z.coerce.number().int().default(0),
+})
+
+const ActivityTranslationInput = z.object({
+  name: z.string().trim(),
+  description: z.string().default(''),
+  shortDesc: z.string().default(''),
+})
+
 export const ActivitySchema = z.object({
-  slug: z.string().min(1),
   season: z.enum(['WINTER', 'SUMMER', 'BOTH']),
-  ageMin: z.coerce.number().int().min(1).max(18),
-  ageMax: z.coerce.number().int().min(1).max(18),
-  durationMin: z.coerce.number().int().min(15),
-  priceFrom: z.coerce.number().positive(),
+  ageMin: z.coerce.number().int().min(1).max(18).optional(),
+  ageMax: z.coerce.number().int().min(1).max(18).optional(),
+  durationMin: z.coerce.number().int().min(15).optional(),
+  priceFrom: z.coerce.number().positive().nullable().optional(),
   isActive: z.boolean().default(true),
   sortOrder: z.coerce.number().int().default(0),
-  translations: z.array(
-    z.object({
-      locale: z.enum(['ro', 'en']),
-      name: z.string().min(1),
-      description: z.string().min(1),
-      shortDesc: z.string().min(1),
-    })
-  ),
+  // RO is the source of truth — name required. EN optional.
+  ro: ActivityTranslationInput.extend({ name: z.string().trim().min(1, 'Numele (RO) este obligatoriu') }),
+  en: ActivityTranslationInput.optional(),
+  images: z.array(ActivityImageInput).default([]),
+})
+
+// ─── INSTRUCTORS ────────────────────────────────────────────────────────────
+
+const InstructorTranslationInput = z.object({
+  name: z.string().trim(),
+  bio: z.string().default(''),
 })
 
 export const InstructorSchema = z.object({
-  slug: z.string().min(1),
-  certifications: z.array(z.string()),
-  imageUrl: z.string().url().optional().or(z.literal('')),
-  imagePublicId: z.string().optional(),
+  certifications: z.array(z.string()).default([]),
+  imageUrl: z.string().url('URL invalid').optional().or(z.literal('')),
   isActive: z.boolean().default(true),
   sortOrder: z.coerce.number().int().default(0),
-  translations: z.array(
-    z.object({
-      locale: z.enum(['ro', 'en']),
-      name: z.string().min(1),
-      bio: z.string().min(1),
-    })
-  ),
+  ro: InstructorTranslationInput.extend({ name: z.string().trim().min(1, 'Numele (RO) este obligatoriu') }),
+  en: InstructorTranslationInput.optional(),
 })
 
 export const SiteSettingsSchema = z.object({
@@ -59,10 +60,5 @@ export const SiteSettingsSchema = z.object({
   contactPhone: z.string().min(1).optional(),
 })
 
-export const BookingStatusSchema = z.object({
-  status: z.enum(['NEW', 'CONTACTED', 'RESOLVED', 'CANCELLED']),
-})
-
-export type BookingInput = z.infer<typeof BookingSchema>
 export type ActivityInput = z.infer<typeof ActivitySchema>
 export type InstructorInput = z.infer<typeof InstructorSchema>

@@ -7,18 +7,54 @@ type ContentRow = { page: string; key: string; value: string }
 
 const PAGE_FIELDS: Record<string, { key: string; label: string; multiline?: boolean }[]> = {
   home: [
-    { key: 'hero_title.ro', label: 'Hero Title (RO)' },
-    { key: 'hero_title.en', label: 'Hero Title (EN)' },
-    { key: 'hero_subtitle.ro', label: 'Hero Subtitle (RO)' },
-    { key: 'hero_subtitle.en', label: 'Hero Subtitle (EN)' },
-    { key: 'about_title.ro', label: 'About Title (RO)' },
-    { key: 'about_title.en', label: 'About Title (EN)' },
-    { key: 'about_body.ro', label: 'About Body (RO)', multiline: true },
-    { key: 'about_body.en', label: 'About Body (EN)', multiline: true },
-    { key: 'cta_title.ro', label: 'CTA Title (RO)' },
-    { key: 'cta_title.en', label: 'CTA Title (EN)' },
-    { key: 'cta_subtitle.ro', label: 'CTA Subtitle (RO)' },
-    { key: 'cta_subtitle.en', label: 'CTA Subtitle (EN)' },
+    // — Hero (titlul mare de pe prima pagină, 3 rânduri) —
+    { key: 'hero_line1.ro', label: 'Hero — Rândul 1 (RO)' },
+    { key: 'hero_line1.en', label: 'Hero — Line 1 (EN)' },
+    { key: 'hero_line2.ro', label: 'Hero — Rândul 2 / accent colorat (RO)' },
+    { key: 'hero_line2.en', label: 'Hero — Line 2 / colored accent (EN)' },
+    { key: 'hero_line3.ro', label: 'Hero — Rândul 3 (RO)' },
+    { key: 'hero_line3.en', label: 'Hero — Line 3 (EN)' },
+    { key: 'hero_subtitle.ro', label: 'Hero — Subtitlu (RO)', multiline: true },
+    { key: 'hero_subtitle.en', label: 'Hero — Subtitle (EN)', multiline: true },
+
+    // — Secțiunea „De ce noi” —
+    { key: 'about_title.ro', label: 'De ce noi — Titlu (RO)' },
+    { key: 'about_title.en', label: 'De ce noi — Title (EN)' },
+    { key: 'about_body.ro', label: 'De ce noi — Text (RO)', multiline: true },
+    { key: 'about_body.en', label: 'De ce noi — Body (EN)', multiline: true },
+
+    // — Cele 4 carduri din „De ce noi” (icon = emoji) —
+    { key: 'value_1_icon.ro', label: 'Card 1 — Emoji' },
+    { key: 'value_1_title.ro', label: 'Card 1 — Titlu (RO)' },
+    { key: 'value_1_title.en', label: 'Card 1 — Title (EN)' },
+    { key: 'value_1_desc.ro', label: 'Card 1 — Descriere (RO)', multiline: true },
+    { key: 'value_1_desc.en', label: 'Card 1 — Description (EN)', multiline: true },
+    { key: 'value_2_icon.ro', label: 'Card 2 — Emoji' },
+    { key: 'value_2_title.ro', label: 'Card 2 — Titlu (RO)' },
+    { key: 'value_2_title.en', label: 'Card 2 — Title (EN)' },
+    { key: 'value_2_desc.ro', label: 'Card 2 — Descriere (RO)', multiline: true },
+    { key: 'value_2_desc.en', label: 'Card 2 — Description (EN)', multiline: true },
+    { key: 'value_3_icon.ro', label: 'Card 3 — Emoji' },
+    { key: 'value_3_title.ro', label: 'Card 3 — Titlu (RO)' },
+    { key: 'value_3_title.en', label: 'Card 3 — Title (EN)' },
+    { key: 'value_3_desc.ro', label: 'Card 3 — Descriere (RO)', multiline: true },
+    { key: 'value_3_desc.en', label: 'Card 3 — Description (EN)', multiline: true },
+    { key: 'value_4_icon.ro', label: 'Card 4 — Emoji' },
+    { key: 'value_4_title.ro', label: 'Card 4 — Titlu (RO)' },
+    { key: 'value_4_title.en', label: 'Card 4 — Title (EN)' },
+    { key: 'value_4_desc.ro', label: 'Card 4 — Descriere (RO)', multiline: true },
+    { key: 'value_4_desc.en', label: 'Card 4 — Description (EN)', multiline: true },
+
+    // — Insignele cu statistici (500+, 10+, 5) —
+    { key: 'stat_kids.ro', label: 'Statistică 1 — Valoare (ex: 500+)' },
+    { key: 'stat_kids_label.ro', label: 'Statistică 1 — Etichetă (RO)' },
+    { key: 'stat_kids_label.en', label: 'Statistică 1 — Label (EN)' },
+    { key: 'stat_years.ro', label: 'Statistică 2 — Valoare (ex: 10+)' },
+    { key: 'stat_years_label.ro', label: 'Statistică 2 — Etichetă (RO)' },
+    { key: 'stat_years_label.en', label: 'Statistică 2 — Label (EN)' },
+    { key: 'stat_activities.ro', label: 'Statistică 3 — Valoare (ex: 5)' },
+    { key: 'stat_activities_label.ro', label: 'Statistică 3 — Etichetă (RO)' },
+    { key: 'stat_activities_label.en', label: 'Statistică 3 — Label (EN)' },
   ],
   about: [
     { key: 'hero_title.ro', label: 'Hero Title (RO)' },
@@ -39,10 +75,6 @@ const PAGE_FIELDS: Record<string, { key: string; label: string; multiline?: bool
     { key: 'hero_subtitle.en', label: 'Hero Subtitle (EN)' },
   ],
   gallery: [
-    { key: 'hero_title.ro', label: 'Hero Title (RO)' },
-    { key: 'hero_title.en', label: 'Hero Title (EN)' },
-  ],
-  booking: [
     { key: 'hero_title.ro', label: 'Hero Title (RO)' },
     { key: 'hero_title.en', label: 'Hero Title (EN)' },
   ],

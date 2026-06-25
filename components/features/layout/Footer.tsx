@@ -4,8 +4,9 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { MapPin, Phone, Mail } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { CONTACT_PHONE, telHref } from '@/lib/utils'
 
-export default function Footer() {
+export default function Footer({ phone = CONTACT_PHONE }: { phone?: string }) {
   const t = useTranslations('footer')
   const nav = useTranslations('nav')
 
@@ -15,7 +16,6 @@ export default function Footer() {
     { href: '/gallery', label: nav('gallery') },
     { href: '/about', label: nav('about') },
     { href: '/contact', label: nav('contact') },
-    { href: '/booking', label: nav('book_now') },
   ]
 
   return (
@@ -121,7 +121,7 @@ export default function Footer() {
                 >
                   <Phone size={12} style={{ color: 'var(--brand-coral)' }} />
                 </div>
-                <a href="tel:0770675375" className="hover:text-white transition-colors">0770 675 375</a>
+                <a href={telHref(phone)} className="hover:text-white transition-colors">{phone}</a>
               </li>
               <li className="flex items-center gap-3 text-white/40 text-sm" style={{ fontFamily: 'var(--font-body)' }}>
                 <div

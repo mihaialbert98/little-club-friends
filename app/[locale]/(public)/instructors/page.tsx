@@ -2,7 +2,8 @@ import Image from 'next/image'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { db } from '@/lib/db'
 import { getSectionPhoto } from '@/lib/content'
-import { Link } from '@/i18n/navigation'
+import { getContactPhone } from '@/lib/theme'
+import { telHref } from '@/lib/utils'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Instructors' }
@@ -11,7 +12,7 @@ export const revalidate = 60
 export default async function InstructorsPage() {
   const t = await getTranslations('instructors')
   const locale = await getLocale()
-  const [heroBg, actionPhoto, instructors] = await Promise.all([
+  const [heroBg, actionPhoto, instructors, phone] = await Promise.all([
     getSectionPhoto('instructors.hero_bg'),
     getSectionPhoto('instructors.action'),
     db.instructor.findMany({
@@ -19,6 +20,7 @@ export default async function InstructorsPage() {
       include: { translations: true },
       orderBy: { sortOrder: 'asc' },
     }),
+    getContactPhone(),
   ])
 
   return (
@@ -69,20 +71,20 @@ export default async function InstructorsPage() {
                   {t('fallback_title')}
                 </h2>
                 <p className="text-white/50 text-sm leading-relaxed mb-8">{t('fallback_desc')}</p>
-                <Link href="/booking" className="btn-coral">
-                  Book a lesson →
-                </Link>
+                <a href={telHref(phone)} className="btn-coral">
+                  {t('cta')} →
+                </a>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px border border-white/6" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+            <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
               {instructors.map((instructor) => {
                 const tr = instructor.translations.find((tx) => tx.locale === locale) ?? instructor.translations[0]
                 return (
                   <div
                     key={instructor.id}
-                    className="group overflow-hidden"
-                    style={{ backgroundColor: 'var(--theme-dark-base)' }}
+                    className="group overflow-hidden border border-white/8 rounded-lg w-full sm:w-[340px] flex flex-col"
+                    style={{ backgroundColor: 'var(--theme-card-tint)' }}
                   >
                     {instructor.imageUrl ? (
                       <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
@@ -110,8 +112,8 @@ export default async function InstructorsPage() {
                         <h3 className="font-display text-white" style={{ fontSize: '1.8rem' }}>{tr?.name}</h3>
                       </div>
                     )}
-                    <div className="p-6 border-t border-white/6">
-                      <p className="text-xs text-white/40 leading-relaxed mb-4">{tr?.bio}</p>
+                    <div className="p-6 border-t border-white/6 flex-1 flex flex-col">
+                      <p className="text-xs text-white/40 leading-relaxed mb-4 flex-1">{tr?.bio}</p>
                       {instructor.certifications && instructor.certifications.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {instructor.certifications.map((cert) => (

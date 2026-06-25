@@ -31,12 +31,33 @@ export async function PUT(req: NextRequest) {
 
   const { page, key, value } = parsed.data
 
-  await db.pageContent.upsert({
-    where: { page_key: { page, key } },
-    update: { value },
-    create: { page, key, value },
-  })
+  // Keys to write (key is "field.locale"). Some fields are language-agnostic
+  // (emojis, numeric stat values) — for those we mirror the value to both
+  // locales so a single edit applies on RO and EN.
+  const [field, locale] = key.split('.')
+  const langAgnostic =
+    field.endsWith('_icon') ||
+    field === 'stat_kids' ||
+    field === 'stat_years' ||
+    field === 'stat_activities'
 
+  const keysToWrite =
+    langAgnostic && locale
+      ? [`${field}.ro`, `${field}.en`]
+      : [key]
+
+  await Promise.all(
+    keysToWrite.map((k) =>
+      db.pageContent.upsert({
+        where: { page_key: { page, key: k } },
+        update: { value },
+        create: { page, key: k, value },
+      })
+    )
+  )
+
+  // Layout-level revalidation cascades to nested home sections.
+  revalidatePath('/', 'layout')
   revalidatePath(`/ro/${page === 'home' ? '' : page}`)
   revalidatePath(`/en/${page === 'home' ? '' : page}`)
 

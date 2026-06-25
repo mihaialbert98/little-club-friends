@@ -1,25 +1,23 @@
 import { db } from '@/lib/db'
 import { getSiteSettings } from '@/lib/theme'
 import { Theme } from '@prisma/client'
-import { CalendarDays, Activity, Users, Snowflake, Sun } from 'lucide-react'
+import { Activity, Users, GalleryHorizontal, Snowflake, Sun } from 'lucide-react'
 
 export default async function AdminDashboard() {
-  const [bookingsCount, newBookingsCount, activitiesCount, instructorsCount, settings] =
+  const [activitiesCount, instructorsCount, galleryCount, settings] =
     await Promise.all([
-      db.booking.count(),
-      db.booking.count({ where: { status: 'NEW' } }),
       db.activity.count({ where: { isActive: true } }),
       db.instructor.count({ where: { isActive: true } }),
+      db.galleryPhoto.count(),
       getSiteSettings(),
     ])
 
   const isWinter = settings?.activeTheme === Theme.WINTER
 
   const stats = [
-    { label: 'Total rezervări', value: bookingsCount, icon: CalendarDays, color: '#3b82f6' },
-    { label: 'Rezervări noi', value: newBookingsCount, icon: CalendarDays, color: '#ef4444' },
     { label: 'Activități active', value: activitiesCount, icon: Activity, color: '#10b981' },
     { label: 'Instructori activi', value: instructorsCount, icon: Users, color: '#8b5cf6' },
+    { label: 'Poze în galerie', value: galleryCount, icon: GalleryHorizontal, color: '#3b82f6' },
   ]
 
   return (
@@ -39,7 +37,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {stats.map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between mb-3">
@@ -59,22 +57,18 @@ export default async function AdminDashboard() {
           <h2 className="font-semibold text-gray-900 mb-4">Acțiuni rapide</h2>
           <div className="space-y-2">
             {[
-              { href: './admin/bookings', label: 'Vezi rezervările noi', badge: newBookingsCount },
-              { href: './admin/activities/new', label: 'Adaugă o activitate nouă', badge: null },
-              { href: './admin/settings', label: 'Schimbă tema site-ului', badge: null },
-              { href: './admin/gallery', label: 'Gestionează galeria foto', badge: null },
-            ].map(({ href, label, badge }) => (
+              { href: './admin/activities/new', label: 'Adaugă o activitate nouă' },
+              { href: './admin/instructors/new', label: 'Adaugă un instructor nou' },
+              { href: './admin/settings', label: 'Schimbă tema site-ului' },
+              { href: './admin/gallery', label: 'Gestionează galeria foto' },
+            ].map(({ href, label }) => (
               <a
                 key={href}
                 href={href}
                 className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors text-sm text-gray-700"
               >
                 {label}
-                {badge ? (
-                  <span className="bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded-full">{badge}</span>
-                ) : (
-                  <span className="text-gray-400">→</span>
-                )}
+                <span className="text-gray-400">→</span>
               </a>
             ))}
           </div>

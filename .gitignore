@@ -42,8 +42,13 @@ next-env.d.ts
 
 /lib/generated/prisma
 
-# superpowers brainstorm artifacts
+# Claude / AI assistant files
+.claude/
 .superpowers/
+CLAUDE.md
+AGENTS.md
+docs/superpowers/
+.mcp.json
 
 # scraper scripts
 scrape_*.py

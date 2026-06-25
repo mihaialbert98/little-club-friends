@@ -1,9 +1,12 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { getContactPhone } from '@/lib/theme'
+import { telHref } from '@/lib/utils'
 
 export default async function CTASection() {
   const t = await getTranslations('home')
   const tNav = await getTranslations('nav')
+  const phone = await getContactPhone()
 
   return (
     <section
@@ -103,13 +106,13 @@ export default async function CTASection() {
 
           {/* CTA group */}
           <div className="flex flex-col sm:flex-row gap-3 items-center mt-2">
-            <Link
-              href="/booking"
+            <a
+              href={telHref(phone)}
               className="btn-coral animate-pulse-glow"
               style={{ padding: '1.1rem 3.2rem', fontSize: '0.78rem' }}
             >
               {t('cta_button')} →
-            </Link>
+            </a>
             <Link
               href="/contact"
               className="btn-ghost"

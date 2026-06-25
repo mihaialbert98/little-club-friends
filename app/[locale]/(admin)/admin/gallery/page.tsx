@@ -11,10 +11,10 @@ export default async function AdminGalleryPage() {
 
   return (
     <div className="p-6 max-w-5xl">
-      <h1 className="text-2xl font-black uppercase tracking-tight mb-2">Gallery</h1>
+      <h1 className="text-2xl font-black uppercase tracking-tight mb-2">Galerie</h1>
       <p className="text-muted-foreground text-sm mb-8">
-        Upload and manage gallery photos. Tag each photo with a season so it appears under the correct theme.
-        If no photos are uploaded here, the public gallery will show the default scraped photos.
+        Adaugă fotografii prin link extern (ex: Facebook). Etichetează fiecare fotografie cu un sezon
+        pentru a apărea sub tema corectă. Dacă nu există fotografii aici, galeria publică afișează imaginile implicite.
       </p>
       <GalleryManager initialPhotos={photos} />
     </div>

@@ -24,6 +24,20 @@ export async function getPageContent(
   return result
 }
 
+// Returns a getter that prefers an admin-set PageContent override and falls back
+// to the provided default (typically a next-intl translation). A blank/whitespace
+// override is treated as "not set" so clearing a field restores the default.
+export async function getContentGetter(
+  page: string,
+  locale: string
+): Promise<(field: string, fallback: string) => string> {
+  const overrides = await getPageContent(page, locale)
+  return (field: string, fallback: string) => {
+    const v = overrides[field]
+    return v && v.trim() ? v : fallback
+  }
+}
+
 // ─── SECTION PHOTO ────────────────────────────────────────────────────────
 // Returns { url, alt } for a named section.
 // When no DB override exists, returns the static fallback path.

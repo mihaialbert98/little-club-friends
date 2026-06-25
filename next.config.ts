@@ -17,9 +17,10 @@ const nextConfig: NextConfig = {
       { pathname: '/scraped/**' },
       { pathname: '/logo.png' },
     ],
+    // Admin pastes external image URLs (e.g. Facebook) for activities/instructors,
+    // so allow any HTTPS host. NOTE: Facebook CDN URLs are signed and may expire.
     remotePatterns: [
-      { protocol: 'https', hostname: 'res.cloudinary.com' },
-      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: '**' },
     ],
   },
   async headers() {

@@ -1,24 +1,54 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Snowflake, Sun, Loader2 } from 'lucide-react'
+import { Snowflake, Sun, Loader2, Phone } from 'lucide-react'
 import { toast } from 'sonner'
 
 type Theme = 'WINTER' | 'SUMMER'
 
 export default function SettingsPage() {
   const [theme, setTheme] = useState<Theme>('WINTER')
+  const [phone, setPhone] = useState('')
+  const [initialPhone, setInitialPhone] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [savingPhone, setSavingPhone] = useState(false)
 
   useEffect(() => {
     fetch('/api/settings')
       .then((r) => r.json())
       .then((data) => {
         if (data?.activeTheme) setTheme(data.activeTheme)
+        if (data?.contactPhone) {
+          setPhone(data.contactPhone)
+          setInitialPhone(data.contactPhone)
+        }
         setLoading(false)
       })
   }, [])
+
+  const savePhone = async () => {
+    const trimmed = phone.trim()
+    if (!trimmed) {
+      toast.error('Numărul de telefon nu poate fi gol.')
+      return
+    }
+    setSavingPhone(true)
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contactPhone: trimmed }),
+      })
+      if (!res.ok) throw new Error()
+      setInitialPhone(trimmed)
+      toast.success('Număr de telefon salvat!')
+    } catch {
+      toast.error('Eroare la salvare.')
+    } finally {
+      setSavingPhone(false)
+    }
+  }
 
   const toggleTheme = async (newTheme: Theme) => {
     setSaving(true)
@@ -114,6 +144,40 @@ export default function SettingsPage() {
             Se salvează...
           </div>
         )}
+      </div>
+
+      {/* Contact phone */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mt-6">
+        <div className="flex items-center gap-2 mb-1">
+          <Phone className="w-5 h-5 text-gray-700" />
+          <h2 className="font-semibold text-gray-900">Număr de telefon</h2>
+        </div>
+        <p className="text-sm text-gray-500 mb-6">
+          Numărul afișat pe site și apelat când vizitatorii apasă „Sună acum”. Modificarea apare instant.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
+          <div className="flex-1">
+            <label htmlFor="phone" className="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1.5">
+              Telefon de contact
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="ex: 0770 675 375"
+              className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+            />
+          </div>
+          <button
+            onClick={savePhone}
+            disabled={savingPhone || phone.trim() === initialPhone.trim()}
+            className="px-6 py-2 text-sm font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+          >
+            {savingPhone ? 'Se salvează...' : 'Salvează'}
+          </button>
+        </div>
       </div>
     </div>
   )

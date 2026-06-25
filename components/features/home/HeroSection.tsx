@@ -1,15 +1,19 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
-import { getTranslations } from 'next-intl/server'
-import { getActiveTheme } from '@/lib/theme'
-import { getSectionPhoto } from '@/lib/content'
+import { getTranslations, getLocale } from 'next-intl/server'
+import { getActiveTheme, getContactPhone } from '@/lib/theme'
+import { getSectionPhoto, getContentGetter } from '@/lib/content'
+import { telHref } from '@/lib/utils'
 import { Theme } from '@prisma/client'
 
 export default async function HeroSection() {
   const t = await getTranslations('home')
-  const [theme, heroBg] = await Promise.all([
+  const locale = await getLocale()
+  const [theme, heroBg, phone, c] = await Promise.all([
     getActiveTheme(),
     getSectionPhoto('home.hero_bg'),
+    getContactPhone(),
+    getContentGetter('home', locale),
   ])
 
   const isWinter = theme === Theme.WINTER
@@ -132,16 +136,16 @@ export default async function HeroSection() {
                 lineHeight: 0.95,
               }}
             >
-              {t('hero_line1')}<br />
+              {c('hero_line1', t('hero_line1'))}<br />
               <span
                 style={{
                   color: 'var(--brand-coral)',
                   textShadow: '0 0 80px rgba(232,116,107,0.5), 0 0 160px rgba(232,116,107,0.2)',
                 }}
               >
-                {t('hero_line2')}
+                {c('hero_line2', t('hero_line2'))}
               </span><br />
-              {t('hero_line3')}
+              {c('hero_line3', t('hero_line3'))}
             </h1>
           </div>
 
@@ -152,7 +156,7 @@ export default async function HeroSection() {
               className="text-white/50 text-base leading-relaxed max-w-[400px]"
               style={{ fontFamily: 'var(--font-body)' }}
             >
-              {t('hero_subtitle')}
+              {c('hero_subtitle', t('hero_subtitle'))}
             </p>
           </div>
 
@@ -179,9 +183,9 @@ export default async function HeroSection() {
 
           {/* CTAs */}
           <div className="animate-fade-in-up delay-400 flex flex-col sm:flex-row gap-3">
-            <Link href="/booking" className="btn-coral inline-flex items-center justify-center gap-2">
+            <a href={telHref(phone)} className="btn-coral inline-flex items-center justify-center gap-2">
               {t('hero_cta_primary')} →
-            </Link>
+            </a>
             <Link href="/activities" className="btn-ghost inline-flex items-center justify-center gap-2">
               {t('hero_cta_secondary')} ↓
             </Link>

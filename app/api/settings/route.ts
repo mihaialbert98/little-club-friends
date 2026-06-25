@@ -30,7 +30,9 @@ export async function PUT(request: NextRequest) {
     data: parsed.data,
   })
 
-  // Revalidate public pages immediately
+  // Revalidate public pages immediately (theme + phone appear across the site).
+  // Layout revalidation cascades to nested routes for navbar/footer phone.
+  revalidatePath('/', 'layout')
   revalidatePath('/ro')
   revalidatePath('/en')
   revalidatePath('/ro/activities')

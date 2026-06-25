@@ -5,11 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Phone } from 'lucide-react'
 import LanguageSwitcher from './LanguageSwitcher'
+import { CONTACT_PHONE, telHref } from '@/lib/utils'
 
-export default function Navbar() {
+export default function Navbar({ phone = CONTACT_PHONE }: { phone?: string }) {
   const t = useTranslations('nav')
+  const phoneTel = telHref(phone)
   const locale = useLocale()
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
@@ -79,13 +81,14 @@ export default function Navbar() {
               </Link>
             ))}
             <LanguageSwitcher />
-            <Link
-              href={`/${locale}/booking`}
-              className="btn-coral"
+            <a
+              href={phoneTel}
+              className="btn-coral inline-flex items-center gap-2"
               style={{ padding: '0.55rem 1.3rem', fontSize: '0.65rem' }}
             >
+              <Phone size={13} />
               {t('book_now')}
-            </Link>
+            </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -149,14 +152,15 @@ export default function Navbar() {
             </nav>
 
             <div className="flex flex-col gap-4 pt-8">
-              <Link
-                href={`/${locale}/booking`}
+              <a
+                href={phoneTel}
                 onClick={() => setMobileOpen(false)}
-                className="btn-coral text-center"
+                className="btn-coral text-center inline-flex items-center justify-center gap-2"
                 style={{ padding: '1rem', fontSize: '0.7rem' }}
               >
-                {t('book_now')}
-              </Link>
+                <Phone size={15} />
+                {t('book_now')} · {phone}
+              </a>
               <div>
                 <LanguageSwitcher />
               </div>

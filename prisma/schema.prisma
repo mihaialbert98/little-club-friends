@@ -100,7 +100,7 @@ model Activity {
   ageMin      Int      @default(4)
   ageMax      Int      @default(16)
   durationMin Int      @default(60)
-  priceFrom   Decimal  @db.Decimal(10, 2)
+  priceFrom   Decimal? @db.Decimal(10, 2)
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
@@ -108,7 +108,6 @@ model Activity {
 
   translations ActivityTranslation[]
   images       ActivityImage[]
-  bookings     Booking[]
 }
 
 model ActivityTranslation {
@@ -195,30 +194,4 @@ model SectionPhoto {
   publicId   String
   alt        String   @default("")
   updatedAt  DateTime @updatedAt
-}
-
-// ─── BOOKINGS ─────────────────────────────────────────────────────────────────
-
-model Booking {
-  id               String        @id @default(cuid())
-  parentName       String
-  email            String
-  phone            String
-  numberOfChildren Int
-  childrenAges     String
-  activityId       String?
-  preferredDates   String
-  notes            String?       @db.Text
-  status           BookingStatus @default(NEW)
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-
-  activity Activity? @relation(fields: [activityId], references: [id], onDelete: SetNull)
-}
-
-enum BookingStatus {
-  NEW
-  CONTACTED
-  RESOLVED
-  CANCELLED
 }

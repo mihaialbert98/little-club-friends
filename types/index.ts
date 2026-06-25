@@ -1,6 +1,6 @@
-import type { Activity, ActivityImage, ActivityTranslation, Instructor, InstructorTranslation, Booking, GalleryPhoto, Season, Theme, BookingStatus } from '@prisma/client'
+import type { Activity, ActivityImage, ActivityTranslation, Instructor, InstructorTranslation, Season, Theme } from '@prisma/client'
 
-export type { Season, Theme, BookingStatus }
+export type { Season, Theme }
 
 export type ActivityWithTranslations = Activity & {
   translations: ActivityTranslation[]
@@ -11,10 +11,6 @@ export type InstructorWithTranslations = Instructor & {
   translations: InstructorTranslation[]
 }
 
-export type BookingWithActivity = Booking & {
-  activity: (Activity & { translations: ActivityTranslation[] }) | null
-}
-
 export type LocalizedActivity = {
   id: string
   slug: string
@@ -22,7 +18,7 @@ export type LocalizedActivity = {
   ageMin: number
   ageMax: number
   durationMin: number
-  priceFrom: number
+  priceFrom: number | null
   isActive: boolean
   name: string
   description: string

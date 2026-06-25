@@ -1,12 +1,14 @@
 import { getTranslations } from 'next-intl/server'
 import { Mail, Phone, MapPin } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { getContactPhone } from '@/lib/theme'
+import { telHref } from '@/lib/utils'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Contact' }
 
 export default async function ContactPage() {
   const t = await getTranslations('contact')
+  const phone = await getContactPhone()
 
   return (
     <div style={{ backgroundColor: 'var(--theme-dark-base)' }}>
@@ -46,8 +48,8 @@ export default async function ContactPage() {
                 {
                   icon: <Phone className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--brand-coral)' }} />,
                   label: t('phone_label'),
-                  value: '0770 675 375',
-                  href: 'tel:0770675375',
+                  value: phone,
+                  href: telHref(phone),
                 },
                 {
                   icon: <Mail className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--brand-coral)' }} />,
@@ -120,9 +122,9 @@ export default async function ContactPage() {
               <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-[340px]">
                 {t('book_card_desc')}
               </p>
-              <Link href="/booking" className="btn-coral inline-block">
-                {t('book_card_cta')} →
-              </Link>
+              <a href={telHref(phone)} className="btn-coral inline-block">
+                {t('book_card_cta')} · {phone}
+              </a>
             </div>
           </div>
         </div>

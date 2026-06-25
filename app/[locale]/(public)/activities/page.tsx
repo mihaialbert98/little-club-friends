@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { db } from '@/lib/db'
 import { getActiveTheme } from '@/lib/theme'
@@ -30,13 +31,23 @@ export default async function ActivitiesPage() {
   const activities = await db.$queryRaw<
     {
       id: string; slug: string; season: string; ageMin: number; ageMax: number;
-      durationMin: number; priceFrom: string; name: string; shortDesc: string;
+      durationMin: number; priceFrom: string | null; name: string; shortDesc: string;
+      imageUrl: string | null;
     }[]
   >`
     SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom",
-           t.name, t."shortDesc"
+           COALESCE(t.name, tro.name) AS name,
+           COALESCE(t."shortDesc", tro."shortDesc") AS "shortDesc",
+           img.url AS "imageUrl"
     FROM "Activity" a
-    JOIN "ActivityTranslation" t ON t."activityId" = a.id AND t.locale = ${locale}
+    JOIN "ActivityTranslation" tro ON tro."activityId" = a.id AND tro.locale = 'ro'
+    LEFT JOIN "ActivityTranslation" t ON t."activityId" = a.id AND t.locale = ${locale}
+    LEFT JOIN LATERAL (
+      SELECT url FROM "ActivityImage" ai
+      WHERE ai."activityId" = a.id
+      ORDER BY ai."isPrimary" DESC, ai."sortOrder" ASC
+      LIMIT 1
+    ) img ON true
     WHERE a."isActive" = true
     ORDER BY ${seasonPriority}, a."sortOrder"
   `
@@ -78,7 +89,7 @@ export default async function ActivitiesPage() {
           {activities.map((activity, index) => {
             const emoji = seasonEmojis[activity.slug] ?? '🏔️'
             const seasonColor = seasonColors[activity.season] ?? 'var(--brand-coral)'
-            const price = Number(activity.priceFrom).toFixed(0)
+            const price = activity.priceFrom !== null ? Number(activity.priceFrom).toFixed(0) : null
 
             return (
               <Link
@@ -94,8 +105,20 @@ export default async function ActivitiesPage() {
                   {String(index + 1).padStart(2, '0')}
                 </span>
 
-                {/* Emoji */}
-                <span className="text-2xl flex-shrink-0">{emoji}</span>
+                {/* Thumbnail or emoji fallback */}
+                {activity.imageUrl ? (
+                  <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-white/5">
+                    <Image
+                      src={activity.imageUrl}
+                      alt={activity.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="64px"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-2xl flex-shrink-0 w-16 text-center">{emoji}</span>
+                )}
 
                 {/* Name + desc */}
                 <div className="flex-1 min-w-0">
@@ -124,9 +147,11 @@ export default async function ActivitiesPage() {
 
                 {/* Price + arrow */}
                 <div className="flex items-center gap-4 flex-shrink-0">
-                  <span className="text-sm text-white/30 hidden lg:block">
-                    {price} <span className="text-white/15">RON</span>
-                  </span>
+                  {price !== null && (
+                    <span className="text-sm text-white/30 hidden lg:block">
+                      {price} <span className="text-white/15">RON</span>
+                    </span>
+                  )}
                   <span
                     className="text-xl font-bold transition-transform duration-300 group-hover:translate-x-1"
                     style={{ color: 'var(--brand-coral)' }}

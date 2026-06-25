@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { uploadImage, deleteImage } from '@/lib/cloudinary'
+import { deleteImage } from '@/lib/cloudinary'
 import { revalidatePath } from 'next/cache'
 import { Season } from '@prisma/client'
 
-const uploadSchema = z.object({
-  imageData: z.string().min(1),
+const createSchema = z.object({
+  url: z.string().url('URL invalid'),
   caption: z.string().optional(),
   season: z.nativeEnum(Season).nullable().optional(),
 })
@@ -36,20 +36,18 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const parsed = uploadSchema.safeParse(body)
+  const parsed = createSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
 
-  const { imageData, caption, season } = parsed.data
-
-  const uploaded = await uploadImage(imageData, { folder: 'little-club-friends/gallery' })
+  const { url, caption, season } = parsed.data
 
   const photo = await db.$transaction(async (tx) => {
     const maxOrder = await tx.galleryPhoto.aggregate({ _max: { sortOrder: true } })
     const nextOrder = (maxOrder._max.sortOrder ?? 0) + 1
     return tx.galleryPhoto.create({
       data: {
-        url: uploaded.secure_url,
-        publicId: uploaded.public_id,
+        url,
+        publicId: '', // external URL — no Cloudinary publicId
         caption: caption ?? null,
         season: season ?? null,
         sortOrder: nextOrder,
@@ -100,7 +98,7 @@ export async function DELETE(req: NextRequest) {
   const photo = await db.galleryPhoto.findUnique({ where: { id: parsed.data.id } })
   if (!photo) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  await deleteImage(photo.publicId)
+  if (photo.publicId) await deleteImage(photo.publicId)
   await db.galleryPhoto.delete({ where: { id: parsed.data.id } })
 
   revalidatePath('/ro/gallery')

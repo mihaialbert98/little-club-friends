@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { toast } from 'sonner'
-import { Upload, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 
 type Season = 'WINTER' | 'SUMMER' | 'BOTH'
 
@@ -16,55 +16,53 @@ type GalleryPhoto = {
   sortOrder: number
 }
 
-function toBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = reject
-    reader.readAsDataURL(file)
-  })
-}
-
 export default function GalleryManager({
   initialPhotos,
 }: {
   initialPhotos: GalleryPhoto[]
 }) {
   const [photos, setPhotos] = useState(initialPhotos)
-  const [uploading, setUploading] = useState(false)
-  const [uploadSeason, setUploadSeason] = useState<Season | 'BOTH'>('BOTH')
-  const [uploadCaption, setUploadCaption] = useState('')
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [adding, setAdding] = useState(false)
+  const [newUrl, setNewUrl] = useState('')
+  const [newSeason, setNewSeason] = useState<Season | 'BOTH'>('BOTH')
+  const [newCaption, setNewCaption] = useState('')
 
-  const handleUpload = async (files: FileList) => {
-    setUploading(true)
+  const handleAdd = async () => {
+    const url = newUrl.trim()
+    if (!url) {
+      toast.error('Adaugă un link către imagine.')
+      return
+    }
+    if (!URL.canParse(url)) {
+      toast.error('URL invalid.')
+      return
+    }
+    setAdding(true)
     try {
-      for (const file of Array.from(files)) {
-        const imageData = await toBase64(file)
-        const res = await fetch('/api/admin/gallery', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            imageData,
-            caption: uploadCaption || undefined,
-            season: uploadSeason === 'BOTH' ? null : uploadSeason,
-          }),
-        })
-        if (!res.ok) throw new Error('Upload failed')
-        const newPhoto = await res.json()
-        setPhotos((prev) => [...prev, newPhoto])
-      }
-      toast.success('Photo(s) uploaded!')
-      setUploadCaption('')
+      const res = await fetch('/api/admin/gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url,
+          caption: newCaption || undefined,
+          season: newSeason === 'BOTH' ? null : newSeason,
+        }),
+      })
+      if (!res.ok) throw new Error('Add failed')
+      const newPhoto = await res.json()
+      setPhotos((prev) => [...prev, newPhoto])
+      toast.success('Fotografie adăugată!')
+      setNewUrl('')
+      setNewCaption('')
     } catch {
-      toast.error('Upload failed.')
+      toast.error('Adăugarea a eșuat.')
     } finally {
-      setUploading(false)
+      setAdding(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this photo permanently?')) return
+    if (!confirm('Ștergi definitiv această fotografie?')) return
     try {
       const res = await fetch('/api/admin/gallery', {
         method: 'DELETE',
@@ -96,54 +94,68 @@ export default function GalleryManager({
 
   return (
     <div>
-      {/* Upload area */}
+      {/* Add-by-URL area */}
       <div className="border-2 border-dashed border-border rounded-sm p-6 mb-8 flex flex-col gap-4">
-        <p className="text-sm font-semibold">Upload new photos</p>
+        <p className="text-sm font-semibold">Adaugă o fotografie (link extern)</p>
         <div className="flex gap-3 flex-wrap items-end">
-          <div>
-            <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Season tag</label>
-            <select
-              value={uploadSeason}
-              onChange={(e) => setUploadSeason(e.target.value as Season | 'BOTH')}
-              className="text-sm border rounded-sm px-2 py-1.5 bg-background"
-            >
-              <option value="BOTH">Both seasons</option>
-              <option value="WINTER">Winter only</option>
-              <option value="SUMMER">Summer only</option>
-            </select>
-          </div>
-          <div className="flex-1 min-w-[200px]">
-            <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Caption (optional)</label>
+          <div className="flex-1 min-w-[240px]">
+            <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Link imagine</label>
             <input
-              type="text"
-              value={uploadCaption}
-              onChange={(e) => setUploadCaption(e.target.value)}
-              placeholder="e.g. Skiing lesson in Poiana Brasov"
+              type="url"
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  handleAdd()
+                }
+              }}
+              placeholder="https://... (ex: Facebook)"
               className="w-full text-sm border rounded-sm px-3 py-1.5 bg-background"
             />
           </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            className="hidden"
-            onChange={(e) => e.target.files && handleUpload(e.target.files)}
-          />
+          <div>
+            <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Sezon</label>
+            <select
+              value={newSeason}
+              onChange={(e) => setNewSeason(e.target.value as Season | 'BOTH')}
+              className="text-sm border rounded-sm px-2 py-1.5 bg-background"
+            >
+              <option value="BOTH">Ambele sezoane</option>
+              <option value="WINTER">Doar iarnă</option>
+              <option value="SUMMER">Doar vară</option>
+            </select>
+          </div>
+          <div className="flex-1 min-w-[180px]">
+            <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Descriere (opțional)</label>
+            <input
+              type="text"
+              value={newCaption}
+              onChange={(e) => setNewCaption(e.target.value)}
+              placeholder="ex: Lecție de schi în Poiana Brașov"
+              className="w-full text-sm border rounded-sm px-3 py-1.5 bg-background"
+            />
+          </div>
           <button
-            onClick={() => inputRef.current?.click()}
-            disabled={uploading}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wider bg-orange-500 text-white rounded-sm disabled:opacity-50"
+            onClick={handleAdd}
+            disabled={adding}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wider bg-blue-600 text-white rounded-sm disabled:opacity-50"
           >
-            <Upload size={14} />
-            {uploading ? 'Uploading...' : 'Choose Photos'}
+            <Plus size={14} />
+            {adding ? 'Se adaugă...' : 'Adaugă'}
           </button>
         </div>
+        {newUrl.trim() && (
+          <div className="relative w-40 h-28 rounded-sm overflow-hidden bg-muted">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={newUrl} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
       </div>
 
       {/* Photo grid */}
       {photos.length === 0 ? (
-        <p className="text-muted-foreground text-sm">No photos uploaded yet. The gallery will show default scraped photos.</p>
+        <p className="text-muted-foreground text-sm">Nicio fotografie încă. Galeria va afișa fotografiile implicite.</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {photos.map((photo) => (

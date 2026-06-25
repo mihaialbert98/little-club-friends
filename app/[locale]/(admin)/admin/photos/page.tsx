@@ -11,9 +11,10 @@ export default async function SectionPhotosPage() {
 
   return (
     <div className="p-6 max-w-4xl">
-      <h1 className="text-2xl font-black uppercase tracking-tight mb-2">Section Photos</h1>
+      <h1 className="text-2xl font-black uppercase tracking-tight mb-2">Fotografii secțiuni</h1>
       <p className="text-muted-foreground text-sm mb-8">
-        Upload custom photos for specific sections. Deleting a photo reverts to the default scraped image.
+        Setează fotografiile pentru secțiunile principale prin link extern (ex: Facebook).
+        Apasă „Revino la implicit” pentru a reveni la imaginea standard.
       </p>
       <SectionPhotoManager initialPhotos={photos} />
     </div>
