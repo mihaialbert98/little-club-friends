@@ -17,7 +17,7 @@ export type LocalizedActivity = {
   season: Season
   ageMin: number
   ageMax: number
-  durationMin: number | null
+  durationHours: number | null
   priceFrom: number | null
   isActive: boolean
   name: string

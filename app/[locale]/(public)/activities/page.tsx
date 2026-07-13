@@ -31,11 +31,11 @@ export default async function ActivitiesPage() {
   const activities = await db.$queryRaw<
     {
       id: string; slug: string; season: string; ageMin: number; ageMax: number;
-      durationMin: number | null; priceFrom: string | null; name: string; shortDesc: string;
+      durationHours: number | null; priceFrom: string | null; name: string; shortDesc: string;
       imageUrl: string | null;
     }[]
   >`
-    SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom",
+    SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationHours", a."priceFrom",
            COALESCE(t.name, tro.name) AS name,
            COALESCE(t."shortDesc", tro."shortDesc") AS "shortDesc",
            img.url AS "imageUrl"

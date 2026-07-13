@@ -74,7 +74,7 @@
     "season_summer": "Summer",
     "season_both": "Year-round",
     "age_range": "Age: {min}–{max} years",
-    "duration": "Duration: {min} min",
+    "duration_hours": "{count, plural, one {# hour} other {# hours}}",
     "price_from": "From {price} RON",
     "book_cta": "Call to book",
     "back_link": "← Back to activities",

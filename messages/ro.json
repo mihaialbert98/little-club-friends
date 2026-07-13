@@ -74,7 +74,7 @@
     "season_summer": "Vară",
     "season_both": "Tot anul",
     "age_range": "Vârstă: {min}–{max} ani",
-    "duration": "Durată: {min} min",
+    "duration_hours": "{count, plural, one {# oră} other {# ore}}",
     "price_from": "De la {price} RON",
     "book_cta": "Sună pentru rezervare",
     "back_link": "← Înapoi la activități",

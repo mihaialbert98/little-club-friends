@@ -16,7 +16,7 @@ interface RawActivity {
   season: string
   ageMin: number
   ageMax: number
-  durationMin: number | null
+  durationHours: number | null
   priceFrom: unknown
   isActive: boolean
   sortOrder: number
@@ -40,18 +40,19 @@ function getActivityConfig(slug: string) {
 
 export default async function FeaturedActivities() {
   const t = await getTranslations('home')
+  const tAct = await getTranslations('activities')
   const locale = await getLocale()
   const theme = await getActiveTheme()
   const orderSQL = getActivityOrderSQL(theme)
 
   const rawActivities = await db.$queryRawUnsafe<RawActivity[]>(`
-    SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom", a."isActive", a."sortOrder",
+    SELECT a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationHours", a."priceFrom", a."isActive", a."sortOrder",
            COALESCE(json_agg(json_build_object('locale', at.locale, 'name', at.name, 'description', at.description))
              FILTER (WHERE at.id IS NOT NULL), '[]') as translations
     FROM "Activity" a
     LEFT JOIN "ActivityTranslation" at ON at."activityId" = a.id
     WHERE a."isActive" = true
-    GROUP BY a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationMin", a."priceFrom", a."isActive", a."sortOrder"
+    GROUP BY a.id, a.slug, a.season, a."ageMin", a."ageMax", a."durationHours", a."priceFrom", a."isActive", a."sortOrder"
     ORDER BY ${orderSQL}, a."sortOrder"
     LIMIT 6
   `)
@@ -174,7 +175,7 @@ export default async function FeaturedActivities() {
                     >
                       Ages {activity.ageMin}–{activity.ageMax}
                     </span>
-                    {activity.durationMin !== null && (
+                    {activity.durationHours !== null && (
                       <span
                         className="text-[11px] px-2.5 py-1 rounded-full"
                         style={{
@@ -183,7 +184,7 @@ export default async function FeaturedActivities() {
                           fontFamily: 'var(--font-body)',
                         }}
                       >
-                        {activity.durationMin} min
+                        {tAct('duration_hours', { count: activity.durationHours })}
                       </span>
                     )}
                   </div>

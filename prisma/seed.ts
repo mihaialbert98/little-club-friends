@@ -72,7 +72,7 @@ async function main() {
       season: Season.WINTER,
       ageMin: 4,
       ageMax: 16,
-      durationMin: 60,
+      durationHours: 1,
       priceFrom: 150,
       sortOrder: 1,
       translations: [
@@ -85,7 +85,7 @@ async function main() {
       season: Season.WINTER,
       ageMin: 7,
       ageMax: 16,
-      durationMin: 60,
+      durationHours: 1,
       priceFrom: 160,
       sortOrder: 2,
       translations: [
@@ -98,7 +98,7 @@ async function main() {
       season: Season.SUMMER,
       ageMin: 6,
       ageMax: 16,
-      durationMin: 90,
+      durationHours: 2,
       priceFrom: 100,
       sortOrder: 1,
       translations: [
@@ -111,7 +111,7 @@ async function main() {
       season: Season.SUMMER,
       ageMin: 4,
       ageMax: 16,
-      durationMin: 120,
+      durationHours: 2,
       priceFrom: 80,
       sortOrder: 2,
       translations: [
@@ -124,7 +124,7 @@ async function main() {
       season: Season.SUMMER,
       ageMin: 7,
       ageMax: 16,
-      durationMin: 60,
+      durationHours: 1,
       priceFrom: 120,
       sortOrder: 3,
       translations: [

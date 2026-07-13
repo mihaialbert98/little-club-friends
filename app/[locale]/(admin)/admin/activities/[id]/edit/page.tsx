@@ -25,7 +25,7 @@ export default async function EditActivityPage({
     season: activity.season as 'WINTER' | 'SUMMER' | 'BOTH',
     ageMin: String(activity.ageMin),
     ageMax: String(activity.ageMax),
-    durationMin: activity.durationMin !== null ? String(activity.durationMin) : '',
+    durationHours: activity.durationHours !== null ? String(activity.durationHours) : '',
     priceFrom: activity.priceFrom !== null ? String(Number(activity.priceFrom)) : '',
     isActive: activity.isActive,
     sortOrder: String(activity.sortOrder),

@@ -27,7 +27,7 @@ export const ActivitySchema = z.object({
   season: z.enum(['WINTER', 'SUMMER', 'BOTH']),
   ageMin: z.coerce.number().int().min(1).max(18).optional(),
   ageMax: z.coerce.number().int().min(1).max(18).optional(),
-  durationMin: z.coerce.number().int().min(15).nullable().optional(),
+  durationHours: z.coerce.number().int().min(1).max(24).nullable().optional(),
   priceFrom: z.coerce.number().positive().nullable().optional(),
   isActive: z.boolean().default(true),
   sortOrder: z.coerce.number().int().default(0),

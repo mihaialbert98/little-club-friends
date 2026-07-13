@@ -97,10 +97,10 @@ model Activity {
   id          String   @id @default(cuid())
   slug        String   @unique
   season      Season   @default(BOTH)
-  ageMin      Int      @default(4)
-  ageMax      Int      @default(16)
-  durationMin Int?
-  priceFrom   Decimal? @db.Decimal(10, 2)
+  ageMin        Int      @default(4)
+  ageMax        Int      @default(16)
+  durationHours Int?
+  priceFrom     Decimal? @db.Decimal(10, 2)
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
