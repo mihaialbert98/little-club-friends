@@ -18,6 +18,7 @@ export type ActivityFormValues = {
   season: Season
   ageMin: string
   ageMax: string
+  durationMin: string
   priceFrom: string
   isActive: boolean
   sortOrder: string
@@ -30,6 +31,7 @@ const EMPTY: ActivityFormValues = {
   season: 'BOTH',
   ageMin: '',
   ageMax: '',
+  durationMin: '',
   priceFrom: '',
   isActive: true,
   sortOrder: '0',
@@ -96,6 +98,7 @@ export default function ActivityForm({ initial, locale }: { initial?: ActivityFo
       season: v.season,
       ageMin: v.ageMin ? Number(v.ageMin) : undefined,
       ageMax: v.ageMax ? Number(v.ageMax) : undefined,
+      durationMin: v.durationMin ? Number(v.durationMin) : null,
       priceFrom: v.priceFrom ? Number(v.priceFrom) : null,
       isActive: v.isActive,
       sortOrder: v.sortOrder ? Number(v.sortOrder) : 0,
@@ -240,6 +243,18 @@ export default function ActivityForm({ initial, locale }: { initial?: ActivityFo
             value={v.ageMax}
             onChange={(e) => setV({ ...v, ageMax: e.target.value })}
             placeholder="ex: 16"
+          />
+        </div>
+        <div>
+          <label className={labelCls}>Durată (minute) — opțional</label>
+          <input
+            type="number"
+            min="15"
+            step="5"
+            className={inputCls}
+            value={v.durationMin}
+            onChange={(e) => setV({ ...v, durationMin: e.target.value })}
+            placeholder="ex: 60"
           />
         </div>
         <div className="flex items-center gap-2 pt-6">

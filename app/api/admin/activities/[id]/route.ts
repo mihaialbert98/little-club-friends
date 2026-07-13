@@ -56,7 +56,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
         season: d.season,
         ageMin: d.ageMin ?? 4,
         ageMax: d.ageMax ?? 16,
-        durationMin: d.durationMin ?? 60,
+        durationMin: d.durationMin ?? null,
         priceFrom: d.priceFrom ?? null,
         isActive: d.isActive,
         sortOrder: d.sortOrder,

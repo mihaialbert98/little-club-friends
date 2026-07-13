@@ -99,7 +99,7 @@ model Activity {
   season      Season   @default(BOTH)
   ageMin      Int      @default(4)
   ageMax      Int      @default(16)
-  durationMin Int      @default(60)
+  durationMin Int?
   priceFrom   Decimal? @db.Decimal(10, 2)
   isActive    Boolean  @default(true)
   sortOrder   Int      @default(0)

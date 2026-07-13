@@ -16,7 +16,7 @@ interface RawActivity {
   season: string
   ageMin: number
   ageMax: number
-  durationMin: number
+  durationMin: number | null
   priceFrom: unknown
   isActive: boolean
   sortOrder: number
@@ -174,16 +174,18 @@ export default async function FeaturedActivities() {
                     >
                       Ages {activity.ageMin}–{activity.ageMax}
                     </span>
-                    <span
-                      className="text-[11px] px-2.5 py-1 rounded-full"
-                      style={{
-                        color: 'rgba(255,255,255,0.45)',
-                        backgroundColor: 'rgba(255,255,255,0.05)',
-                        fontFamily: 'var(--font-body)',
-                      }}
-                    >
-                      {activity.durationMin} min
-                    </span>
+                    {activity.durationMin !== null && (
+                      <span
+                        className="text-[11px] px-2.5 py-1 rounded-full"
+                        style={{
+                          color: 'rgba(255,255,255,0.45)',
+                          backgroundColor: 'rgba(255,255,255,0.05)',
+                          fontFamily: 'var(--font-body)',
+                        }}
+                      >
+                        {activity.durationMin} min
+                      </span>
+                    )}
                   </div>
 
                   {/* Separator */}

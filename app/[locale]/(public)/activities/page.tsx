@@ -31,7 +31,7 @@ export default async function ActivitiesPage() {
   const activities = await db.$queryRaw<
     {
       id: string; slug: string; season: string; ageMin: number; ageMax: number;
-      durationMin: number; priceFrom: string | null; name: string; shortDesc: string;
+      durationMin: number | null; priceFrom: string | null; name: string; shortDesc: string;
       imageUrl: string | null;
     }[]
   >`

@@ -222,12 +222,14 @@ export default async function ActivityDetailPage({ params }: PageProps) {
                     {t('age_range', { min: activity.ageMin, max: activity.ageMax })}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[9px] tracking-[2px] uppercase font-bold text-white/30 mb-1">Duration</p>
-                  <p className="text-white font-semibold text-sm">
-                    {activity.durationMin} min
-                  </p>
-                </div>
+                {activity.durationMin !== null && (
+                  <div>
+                    <p className="text-[9px] tracking-[2px] uppercase font-bold text-white/30 mb-1">Duration</p>
+                    <p className="text-white font-semibold text-sm">
+                      {activity.durationMin} min
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* CTA */}
