@@ -43,11 +43,11 @@ export default function Footer({ phone = CONTACT_PHONE }: { phone?: string }) {
           <div className="flex flex-col gap-5">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/logo-lcf.png"
                 alt="Little Club Friends"
                 width={56}
                 height={56}
-                className="h-14 w-auto rounded-md transition-opacity hover:opacity-80"
+                className="h-14 w-auto rounded-full transition-opacity hover:opacity-80"
                 style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
               />
             </Link>

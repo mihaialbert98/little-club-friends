@@ -49,12 +49,12 @@ export default function Navbar({ phone = CONTACT_PHONE }: { phone?: string }) {
           {/* Logo */}
           <Link href={`/${locale}`} className="flex-shrink-0 flex items-center gap-3 group">
             <Image
-              src="/logo.png"
+              src="/logo-lcf.png"
               alt="Little Club Friends"
               width={52}
               height={52}
-              className="h-14 w-auto lg:h-16 rounded-sm transition-opacity group-hover:opacity-80"
-              priority
+              className="h-14 w-auto lg:h-16 rounded-full transition-opacity group-hover:opacity-80"
+              preload
             />
           </Link>
 
@@ -113,11 +113,11 @@ export default function Navbar({ phone = CONTACT_PHONE }: { phone?: string }) {
           {/* Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/6">
             <Image
-              src="/logo.png"
+              src="/logo-lcf.png"
               alt="Little Club Friends"
               width={52}
               height={52}
-              className="h-12 w-auto rounded-sm"
+              className="h-12 w-auto rounded-full"
             />
             <button
               className="text-white/60 hover:text-white transition-colors"

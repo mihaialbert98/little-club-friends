@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
   images: {
     localPatterns: [
       { pathname: '/scraped/**' },
-      { pathname: '/logo.png' },
+      { pathname: '/logo-lcf.png' },
     ],
     // Admin pastes external image URLs (e.g. Facebook) for activities/instructors,
     // so allow any HTTPS host. NOTE: Facebook CDN URLs are signed and may expire.
